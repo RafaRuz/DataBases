@@ -3,6 +3,16 @@
 import de.dis2011.data.EstateAgent;
 import de.dis2011.data.Estate;
 import de.dis2011.data.Contract;
+import de.dis2011.data.DB2ConnectionManager;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -10,10 +20,14 @@ import de.dis2011.data.Contract;
  * Hauptklasse
  */
 public class Main {
+    
+        static EstateAgent actualEstateAgent;
+
 	/**
 	 * Startet die Anwendung
 	 */
 	public static void main(String[] args) {
+                
 		showMainMenu();
 	}
 
@@ -23,15 +37,17 @@ public class Main {
 	public static void showMainMenu() {
 		//Menüoptionen
 		final int MENU_AGENT = 0;
-                final int MENU_ESTATE = 1;
-                final int MENU_CONTRACT = 2;
-		final int QUIT = 3;
+                //final int MENU_ESTATE = 1;
+                //final int MENU_CONTRACT = 2;
+                final int LOGIN = 1;
+		final int QUIT = 2;
 
 		//Erzeuge Menü
 		Menu mainMenu = new Menu("Main Menu");
 		mainMenu.addEntry("Agent Administration", MENU_AGENT);
-                mainMenu.addEntry("Estate Administration", MENU_ESTATE);
-                mainMenu.addEntry("Contract Management", MENU_CONTRACT);
+                mainMenu.addEntry("Login", LOGIN);
+                //mainMenu.addEntry("Estate Administration", MENU_ESTATE);
+                //mainMenu.addEntry("Contract Management", MENU_CONTRACT);
 		mainMenu.addEntry("Terminate", QUIT);
 
 		//Verarbeite Eingabe
@@ -42,12 +58,15 @@ public class Main {
 				case MENU_AGENT:
 					showEstateAgentMenu();
 					break;
-        case MENU_ESTATE:
-					showEstateMenu();
-					break;
-        case MENU_CONTRACT:
-					showContractMenu();
-					break;
+                                //case MENU_ESTATE:
+				//	showEstateMenu();
+				//	break;
+                                //case MENU_CONTRACT:
+				//	showContractMenu();
+				//	break;
+                                case LOGIN:
+                                    if( login() )   showLoggedAgentMenu();
+                                    break;
 				case QUIT:
 					return;
 			}
@@ -138,6 +157,36 @@ public class Main {
 			}
 		}
 	}
+        
+        public static void showLoggedAgentMenu() {
+		//Menüoptionen
+                final int MENU_ESTATE = 0;
+                final int MENU_CONTRACT = 1;
+                final int LOGOUT = 2;
+		final int QUIT = 3;
+
+		//Erzeuge Menü
+		Menu loggedAgentMenu = new Menu("Logged Agent Menu");
+                loggedAgentMenu.addEntry("Estate Administration", MENU_ESTATE);
+                loggedAgentMenu.addEntry("Contract Management", MENU_CONTRACT);
+                loggedAgentMenu.addEntry("Logout", LOGOUT);
+
+		//Verarbeite Eingabe
+		while(true) {
+			int response = loggedAgentMenu.show();
+
+			switch(response) {
+                                case MENU_ESTATE:
+					showEstateMenu();
+					break;
+                                case MENU_CONTRACT:
+					showContractMenu();
+					break;
+                                case LOGOUT:
+                                        return;
+			}
+		}
+	}
 
 	/**
 	 * Creates a new agent after the user enters the appropriate data.
@@ -157,12 +206,13 @@ public class Main {
 	 * Delete an agent from the database.
 	 */
 	public static void deleteEstateAgent(int id) {
-		EstateAgent m = new EstateAgent();
+		EstateAgent m = EstateAgent.load(id);
 
-		m.load(id).delete();;
-
-
-		System.out.println("Agent with ID "+m.load(id).getId()+" was deleted.");
+		if( m != null ){
+                    m.delete();
+                    System.out.println("Agent with ID "+Integer.toString(id)+" was deleted.");
+                }
+                else System.out.println("Unexistent Agent ID.");
 	}
 
 	/**
@@ -191,6 +241,73 @@ public class Main {
 		c.save();
 
 		System.out.println("Contract with number "+c.getContractNumber()+" was generated.");
+	}
+        
+        /**
+	 * Ask for an username and password and try to log in
+	 */
+	public static boolean login() {
+                BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
+
+                System.out.println("Please enter the username:");
+                String username = "";
+                
+                try {
+                    username = stdin.readLine();
+                } catch (IOException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                // Get connected
+		Connection con = DB2ConnectionManager.getInstance().getConnection();
+
+		try {
+                        String selectByLoginSQL = "SELECT * FROM estateagent WHERE login = ?";
+                        PreparedStatement pstmt = con.prepareStatement(selectByLoginSQL);
+                        
+                        pstmt.setString(1, username);
+                        
+                        ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+                                String password = "";
+                                
+                                try {
+                                    password = stdin.readLine();
+                                } catch (IOException ex) {
+                                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                
+                                if( password.equals(rs.getString("password")) ){
+                                    EstateAgent ts = new EstateAgent();
+                                    ts.setId(rs.getInt("id"));
+                                    ts.setName(rs.getString("name"));
+                                    ts.setAddress(rs.getString("address"));
+                                    ts.setLogin(rs.getString("login"));
+                                    ts.setPassword(rs.getString("password"));
+
+                                    rs.close();
+                                    pstmt.close();
+                                    actualEstateAgent = ts;
+                                       
+                                    System.out.println("Login successful.");
+                                    return true;
+                                }
+                                else{
+                                    System.out.println("Incorrect password.");
+                                    return false;
+                                }
+			}
+                        else{
+                            System.out.println("Invalid username.");
+                            return false;
+                        }
+                    
+                } catch (SQLException e) {
+			e.printStackTrace();
+		}
+            
+            
+		return false;
 	}
 
 }

@@ -163,17 +163,14 @@ public class EstateAgent {
 		Connection con = DB2ConnectionManager.getInstance().getConnection();
 
 		try {
-			// Add a new element if the object does not already have an ID.
+			// Check if the Agent already exists
 			if (getId() == -1) {
 
 				System.out.println("This agent is not in the database.");
 			} else {
-				// If an ID already exists, make an update ...
-				String deleteSQL = "DELETE * FROM estateagent WHERE id = ?";
+				// If an ID already exists, delete it
+				String deleteSQL = "DELETE FROM estateagent WHERE id = ?";
 				PreparedStatement pstmt = con.prepareStatement(deleteSQL);
-				System.out.println("AAAAAAAAAAAAAAAA");
-				System.out.println(getId());
-
 
 
 				// Set request parameters
