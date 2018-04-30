@@ -79,12 +79,14 @@ public class Main {
 	public static void showEstateAgentMenu() {
 		//Menüoptionen1
 		final int NEW_AGENT = 0;
-                final int DELETE_AGENT = 1;
-		final int BACK = 2;
+                final int UPDATE_AGENT = 1;
+                final int DELETE_AGENT = 2;
+		final int BACK = 3;
 
 		//agentverwaltungsmenü
 		Menu estateAgentMenu = new Menu("Agent Administration");
 		estateAgentMenu.addEntry("New Agent", NEW_AGENT);
+                estateAgentMenu.addEntry("Update Agent", UPDATE_AGENT);
 		estateAgentMenu.addEntry("Delete Agent", DELETE_AGENT);
 		estateAgentMenu.addEntry("Back to Main Menu", BACK);
 
@@ -96,6 +98,9 @@ public class Main {
 				case NEW_AGENT:
 					newEstateAgent();
 					break;
+                                case UPDATE_AGENT:
+                                        updateEstateAgent();
+                                        break;
 				case DELETE_AGENT:
 					deleteEstateAgent(FormUtil.readInt("ID"));
 					break;
@@ -183,6 +188,7 @@ public class Main {
 					showContractMenu();
 					break;
                                 case LOGOUT:
+                                        actualEstateAgent = null;
                                         return;
 			}
 		}
@@ -202,6 +208,43 @@ public class Main {
 
 		System.out.println("Agent with ID "+m.getId()+" was generated.");
 	}
+        
+        /**
+	 * Creates a new agent after the user enters the appropriate data.
+	 */
+	public static void updateEstateAgent() {
+            int id = FormUtil.readInt("Enter the ID from the Agent to modify");
+            
+            // Get connected
+            Connection con = DB2ConnectionManager.getInstance().getConnection();
+
+            try {
+                    String selectSQL = "SELECT * FROM estateagent WHERE id = ?";
+                    PreparedStatement pstmt = con.prepareStatement(selectSQL);
+
+                    pstmt.setInt(1, id);
+
+                    ResultSet rs = pstmt.executeQuery();
+                    if (rs.next()) {
+                        EstateAgent m = EstateAgent.load(id);
+                
+                        System.out.println("Enter the new data:");
+                        
+                        m.setName(FormUtil.readString("Name"));
+                        m.setAddress(FormUtil.readString("Adresse"));
+                        m.setLogin(FormUtil.readString("Login"));
+                        m.setPassword(FormUtil.readString("Passwort"));
+                        m.save();
+
+                        System.out.println("Agent with ID "+m.getId()+" was updated.");
+                    }
+                    else System.out.println("Invalid Agent ID.");
+
+            } catch (SQLException e) {
+                    e.printStackTrace();
+            }
+	}
+        
 	/**
 	 * Delete an agent from the database.
 	 */
@@ -247,16 +290,10 @@ public class Main {
 	 * Ask for an username and password and try to log in
 	 */
 	public static boolean login() {
-                BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
-
                 System.out.println("Please enter the username:");
                 String username = "";
                 
-                try {
-                    username = stdin.readLine();
-                } catch (IOException ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                username = FormUtil.readString("Name");
 
                 // Get connected
 		Connection con = DB2ConnectionManager.getInstance().getConnection();
@@ -271,11 +308,7 @@ public class Main {
 			if (rs.next()) {
                                 String password = "";
                                 
-                                try {
-                                    password = stdin.readLine();
-                                } catch (IOException ex) {
-                                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                                }
+                                password = FormUtil.readString("Password");
                                 
                                 if( password.equals(rs.getString("password")) ){
                                     EstateAgent ts = new EstateAgent();
