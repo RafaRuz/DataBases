@@ -88,6 +88,44 @@ public class Estate {
 		public void setSquareArea(int square_area) {
 		this.square_area = square_area;
 	}
+
+	/**
+	 * Lädt einen Estate aus der Datenbank
+	 * @param id ID des zu ladenden Estate
+	 * @return Estate-Instanz
+	 */
+	public static Estate load(int id) {
+		try {
+			// Hole Verbindung
+			Connection con = DB2ConnectionManager.getInstance().getConnection();
+
+			// Erzeuge Anfrage
+			String selectSQL = "SELECT * FROM estate WHERE estateid = ?";
+			PreparedStatement pstmt = con.prepareStatement(selectSQL);
+			pstmt.setInt(1, id);
+
+			// Führe Anfrage aus
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+
+				Estate ts = new Estate();
+				ts.setId(id);
+				ts.setCity(rs.getString("City"));
+			//	ts.setPostalCode(rs.getInt("Postal Code"));
+				ts.setStreet(rs.getString("Street"));
+			//	ts.setStreetNumber(rs.getInt("Street Number"));
+			//	ts.setSquareArea(rs.getInt("Square Area"));
+
+				rs.close();
+				pstmt.close();
+				return ts;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	/**
 	 Saves Estate in the database. If no ID has yet been assigned,
 	 the enerated id is fetched from DB2 and passed to the model.
@@ -123,7 +161,7 @@ public class Estate {
 				pstmt.close();
 			} else {
 				// If an ID already exists, make an update ...
-				String updateSQL = "UPDATE Estate SET city = ?, postal_code = ?, street = ?, street_number = ?, square_area = ? WHERE id = ?";
+				String updateSQL = "UPDATE Estate SET city = ?, postal_code = ?, street = ?, street_number = ?, square_area = ? WHERE estateid = ?";
 				PreparedStatement pstmt = con.prepareStatement(updateSQL);
 
 				// Set request parameters
@@ -133,6 +171,36 @@ public class Estate {
 				pstmt.setInt(4, getStreetNumber());
 				pstmt.setInt(5, getSquareArea());
 				pstmt.setInt(6, getId());
+				pstmt.executeUpdate();
+
+				pstmt.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 Delete Estate in the database.
+	 */
+	public void delete() {
+		// Get connected
+		Connection con = DB2ConnectionManager.getInstance().getConnection();
+
+		try {
+			// Check if the Estate already exists
+			if (getId() == -1) {
+
+				System.out.println("This estate is not in the database.");
+			} else {
+				// If an ID already exists, delete it
+				String deleteSQL = "DELETE FROM estate WHERE estateid = ?";
+				PreparedStatement pstmt = con.prepareStatement(deleteSQL);
+
+
+				// Set request parameters
+
+				pstmt.setInt(1, getId());
 				pstmt.executeUpdate();
 
 				pstmt.close();

@@ -20,14 +20,14 @@ import java.util.logging.Logger;
  * Hauptklasse
  */
 public class Main {
-    
+
         static EstateAgent actualEstateAgent;
 
 	/**
 	 * Startet die Anwendung
 	 */
 	public static void main(String[] args) {
-                
+
 		showMainMenu();
 	}
 
@@ -79,14 +79,14 @@ public class Main {
 	public static void showEstateAgentMenu() {
 		//Menüoptionen1
 		final int NEW_AGENT = 0;
-                final int UPDATE_AGENT = 1;
-                final int DELETE_AGENT = 2;
+    final int UPDATE_AGENT = 1;
+    final int DELETE_AGENT = 2;
 		final int BACK = 3;
 
 		//agentverwaltungsmenü
 		Menu estateAgentMenu = new Menu("Agent Administration");
 		estateAgentMenu.addEntry("New Agent", NEW_AGENT);
-                estateAgentMenu.addEntry("Update Agent", UPDATE_AGENT);
+    estateAgentMenu.addEntry("Update Agent", UPDATE_AGENT);
 		estateAgentMenu.addEntry("Delete Agent", DELETE_AGENT);
 		estateAgentMenu.addEntry("Back to Main Menu", BACK);
 
@@ -98,12 +98,7 @@ public class Main {
 				case NEW_AGENT:
 					newEstateAgent();
 					break;
-                                case UPDATE_AGENT:
-                                        updateEstateAgent();
-                                        break;
-				case DELETE_AGENT:
-					deleteEstateAgent(FormUtil.readInt("ID"));
-					break;
+
 				case BACK:
 					return;
 			}
@@ -116,11 +111,15 @@ public class Main {
 	public static void showEstateMenu() {
 		//Menüoptionen1
 		final int NEW_ESTATE = 0;
-		final int BACK = 1;
+		final int UPDATE_ESTATE = 1;
+    final int DELETE_ESTATE = 2;
+		final int BACK = 3;
 
 		//agentverwaltungsmenü
 		Menu estateMenu = new Menu("Estate Administration");
 		estateMenu.addEntry("New Estate", NEW_ESTATE);
+		estateMenu.addEntry("Update Estate", UPDATE_ESTATE);
+		estateMenu.addEntry("Delete Estate", DELETE_ESTATE);
 		estateMenu.addEntry("Back to Main Menu", BACK);
 
 		//Verarbeite Eingabe
@@ -131,6 +130,12 @@ public class Main {
 				case NEW_ESTATE:
 					newEstate();
 					break;
+			case UPDATE_ESTATE:
+				updateEstate();
+				break;
+			case DELETE_ESTATE:
+				deleteEstate(FormUtil.readInt("ID"));
+				break;
 				case BACK:
 					return;
 			}
@@ -142,11 +147,15 @@ public class Main {
 	public static void showContractMenu() {
 		//Menüoptionen1
 		final int NEW_CONTRACT = 0;
-		final int BACK = 1;
+		final int SEE_CONTRACT = 1;
+		final int INSERT_PERSON = 2;
+		final int BACK = 3;
 
 		//agentverwaltungsmenü
 		Menu contractMenu = new Menu("Contract Administration");
 		contractMenu.addEntry("New Contract", NEW_CONTRACT);
+		contractMenu.addEntry("New Contract", SEE_CONTRACT);
+		contractMenu.addEntry("Insert Person", INSERT_PERSON);
 		contractMenu.addEntry("Back to Main Menu", BACK);
 
 		//Verarbeite Eingabe
@@ -157,12 +166,18 @@ public class Main {
 				case NEW_CONTRACT:
 					newContract();
 					break;
+				case SEE_CONTRACT:
+					seeContracts();
+					break;
+				case INSERT_PERSON:
+					insertPerson();
+					break;
 				case BACK:
 					return;
 			}
 		}
 	}
-        
+
         public static void showLoggedAgentMenu() {
 		//Menüoptionen
                 final int MENU_ESTATE = 0;
@@ -208,13 +223,13 @@ public class Main {
 
 		System.out.println("Agent with ID "+m.getId()+" was generated.");
 	}
-        
-        /**
-	 * Creates a new agent after the user enters the appropriate data.
+
+    /**
+	 * Updates a new agent after the user enters the appropriate data.
 	 */
 	public static void updateEstateAgent() {
             int id = FormUtil.readInt("Enter the ID from the Agent to modify");
-            
+
             // Get connected
             Connection con = DB2ConnectionManager.getInstance().getConnection();
 
@@ -227,9 +242,9 @@ public class Main {
                     ResultSet rs = pstmt.executeQuery();
                     if (rs.next()) {
                         EstateAgent m = EstateAgent.load(id);
-                
+
                         System.out.println("Enter the new data:");
-                        
+
                         m.setName(FormUtil.readString("Name"));
                         m.setAddress(FormUtil.readString("Adresse"));
                         m.setLogin(FormUtil.readString("Login"));
@@ -244,9 +259,9 @@ public class Main {
                     e.printStackTrace();
             }
 	}
-        
+
 	/**
-	 * Delete an agent from the database.
+	 * Deletes an agent from the database.
 	 */
 	public static void deleteEstateAgent(int id) {
 		EstateAgent m = EstateAgent.load(id);
@@ -257,6 +272,7 @@ public class Main {
                 }
                 else System.out.println("Unexistent Agent ID.");
 	}
+
 
 	/**
 	 * Creates a new estate after the user enters the appropriate data.
@@ -273,6 +289,56 @@ public class Main {
 
 		System.out.println("Estate with ID "+e.getId()+" was generated.");
 	}
+
+	/**
+ * Updates a estate after the user enters the appropriate data.
+ */
+	public static void updateEstate() {
+						int id = FormUtil.readInt("Enter the ID from the Estate to modify");
+
+						// Get connected
+						Connection con = DB2ConnectionManager.getInstance().getConnection();
+
+						try {
+										String selectSQL = "SELECT * FROM estate WHERE estateid = ?";
+										PreparedStatement pstmt = con.prepareStatement(selectSQL);
+
+										pstmt.setInt(1, id);
+
+										ResultSet rs = pstmt.executeQuery();
+										if (rs.next()) {
+												Estate e = Estate.load(id);
+
+												System.out.println("Enter the new data:");
+
+												e.setCity(FormUtil.readString("City"));
+												e.setPostalCode(FormUtil.readInt("Postal Code"));
+												e.setStreet(FormUtil.readString("Street"));
+												e.setStreetNumber(FormUtil.readInt("Street Number"));
+												e.setSquareArea(FormUtil.readInt("Square Area"));
+												e.save();
+
+												System.out.println("Estate with ID "+e.getId()+" was updated.");
+										}
+										else System.out.println("Invalid Estate ID.");
+
+						} catch (SQLException e) {
+										e.printStackTrace();
+						}
+	}
+	/**
+	* Deletes an estate from the database.
+	*/
+	public static void deleteEstate(int id) {
+		Estate e = Estate.load(id);
+
+		if( e != null ){
+			e.delete();
+			System.out.println("Estate with ID "+Integer.toString(id)+" was deleted.");
+		}
+		else System.out.println("Unexistent Estate ID.");
+	}
+
 	/**
 	 * Creates a new contract after the user enters the appropriate data.
 	 */
@@ -285,14 +351,60 @@ public class Main {
 
 		System.out.println("Contract with number "+c.getContractNumber()+" was generated.");
 	}
-        
+
+	/**
+	 * See all the contracts
+	 *//*
+	public static void seeContracts() {
+		int id = FormUtil.readInt("Enter the ID from the Estate to modify");
+
+		// Get connected
+		Connection con = DB2ConnectionManager.getInstance().getConnection();
+
+		try {
+						String selectSQL = "SELECT * FROM contract";
+						PreparedStatement pstmt = con.prepareStatement(selectSQL);
+
+						pstmt.setInt(1, id);
+
+						ResultSet rs = pstmt.executeQuery();
+						if (rs.next()) {
+								Estate e = Estate.load(id);
+
+								System.out.println("Enter the new data:");
+
+								e.setCity(FormUtil.readString("City"));
+								e.setPostalCode(FormUtil.readInt("Postal Code"));
+								e.setStreet(FormUtil.readString("Street"));
+								e.setStreetNumber(FormUtil.readInt("Street Number"));
+								e.setSquareArea(FormUtil.readInt("Square Area"));
+								e.save();
+
+								System.out.println("Estate with ID "+e.getId()+" was updated.");
+						}
+						else System.out.println("Invalid Estate ID.");
+
+		} catch (SQLException e) {
+						e.printStackTrace();
+		}
+	}
+*/
+	/**
+	 * Creates a new contract after the user enters the appropriate data.
+	 */
+/*	public static void insertPerson() {
+		Contract c = new Contract();
+
+		System.out.println("Contract with number "+c.getContractNumber()+" was generated.");
+	}*/
+
         /**
 	 * Ask for an username and password and try to log in
 	 */
 	public static boolean login() {
                 System.out.println("Please enter the username:");
                 String username = "";
-                
+
                 username = FormUtil.readString("Name");
 
                 // Get connected
@@ -301,15 +413,15 @@ public class Main {
 		try {
                         String selectByLoginSQL = "SELECT * FROM estateagent WHERE login = ?";
                         PreparedStatement pstmt = con.prepareStatement(selectByLoginSQL);
-                        
+
                         pstmt.setString(1, username);
-                        
+
                         ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
                                 String password = "";
-                                
+
                                 password = FormUtil.readString("Password");
-                                
+
                                 if( password.equals(rs.getString("password")) ){
                                     EstateAgent ts = new EstateAgent();
                                     ts.setId(rs.getInt("id"));
@@ -321,7 +433,7 @@ public class Main {
                                     rs.close();
                                     pstmt.close();
                                     actualEstateAgent = ts;
-                                       
+
                                     System.out.println("Login successful.");
                                     return true;
                                 }
@@ -334,12 +446,12 @@ public class Main {
                             System.out.println("Invalid username.");
                             return false;
                         }
-                    
+
                 } catch (SQLException e) {
 			e.printStackTrace();
 		}
-            
-            
+
+
 		return false;
 	}
 
