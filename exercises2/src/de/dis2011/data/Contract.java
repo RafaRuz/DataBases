@@ -82,7 +82,7 @@ public class Contract {
 
 		try {
 			// Add a new element if the object does not already have an ID.
-			if (getContractNumber() == -1) {
+			//if (getContractNumber() == -1) {
 				//Attention, here a parameter is given, so that later generated IDs are returned!
 				String insertSQL = "INSERT INTO Contract(contract_date, place) VALUES (?, ?)";
 
@@ -97,14 +97,16 @@ public class Contract {
 				// Get the id of the tight set
 				ResultSet rs = pstmt.getGeneratedKeys();
 				if (rs.next()) {
+                                        System.out.println(rs.getInt(1));
 					setContractNumber(rs.getInt(1));
+                                        System.out.println("AAAAAAAAAAAASD");
 				}
 
 				rs.close();
 				pstmt.close();
-			} else {
+			/*} else {
 				// If an ID already exists, make an update ...
-				String updateSQL = "UPDATE Contract SET contract_date = ?, place = ? WHERE id = ?";
+				String updateSQL = "UPDATE Contract SET contract_date = ?, place = ? WHERE contract_number = ?";
 				PreparedStatement pstmt = con.prepareStatement(updateSQL);
 
 				// Set request parameters
@@ -114,7 +116,7 @@ public class Contract {
 				pstmt.executeUpdate();
 
 				pstmt.close();
-			}
+			}*/
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

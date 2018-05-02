@@ -112,10 +112,10 @@ public class Estate {
 
 				ts.setId(id);
 				ts.setCity(rs.getString("City"));
-				// ts.setPostalCode(rs.getInt("Postal Code"));
+				ts.setPostalCode(rs.getInt("Postal_Code"));
 				ts.setStreet(rs.getString("Street"));
-			//	ts.setStreetNumber(rs.getInt("Street Number"));
-			//	ts.setSquareArea(rs.getInt("Square Area"));
+				ts.setStreetNumber(rs.getInt("Street_Number"));
+				ts.setSquareArea(rs.getInt("Square_Area"));
 
 				rs.close();
 				pstmt.close();

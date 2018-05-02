@@ -5,9 +5,12 @@ import de.dis2011.data.Estate;
 import de.dis2011.data.Contract;
 import de.dis2011.data.Apartament;
 import de.dis2011.data.House;
+import de.dis2011.data.TenancyContract;    
+import de.dis2011.data.PurchaseContract;
 
 
 import de.dis2011.data.DB2ConnectionManager;
+import de.dis2011.data.Person;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -150,21 +153,20 @@ public class Main {
 			}
 		}
 	}
-	/**
+
+        /**
 	 * Shows Contract management
 	 */
 	public static void showContractMenu() {
 		//Menüoptionen1
-		final int NEW_CONTRACT = 0;
-		final int SEE_CONTRACT = 1;
-		final int INSERT_PERSON = 2;
-		final int BACK = 3;
+		final int NEW_TENANCY_CONTRACT = 0;
+                final int NEW_PURCHASE_CONTRACT = 1;
+		final int BACK = 2;
 
 		//agentverwaltungsmenü
 		Menu contractMenu = new Menu("Contract Administration");
-		contractMenu.addEntry("New Contract", NEW_CONTRACT);
-		contractMenu.addEntry("New Contract", SEE_CONTRACT);
-		contractMenu.addEntry("Insert Person", INSERT_PERSON);
+		contractMenu.addEntry("New Tenancy Contract", NEW_TENANCY_CONTRACT);
+                contractMenu.addEntry("New Purchase Contract", NEW_PURCHASE_CONTRACT);
 		contractMenu.addEntry("Back to Main Menu", BACK);
 
 		//Verarbeite Eingabe
@@ -172,21 +174,21 @@ public class Main {
 			int response = contractMenu.show();
 
 			switch(response) {
-				case NEW_CONTRACT:
-					newContract();
+				case NEW_TENANCY_CONTRACT:
+					newTenancyContract();
 					break;
-				/*case SEE_CONTRACT:
-					seeContracts();
+				case NEW_PURCHASE_CONTRACT:
+					newPurchaseContract();
 					break;
-				case INSERT_PERSON:
-					insertPerson();
-					break;*/
 				case BACK:
 					return;
 			}
 		}
 	}
 
+        /**
+	 * Shows Logged Agent Menu
+	 */
         public static void showLoggedAgentMenu() {
 		//Menüoptionen
                 final int MENU_ESTATE = 0;
@@ -331,8 +333,8 @@ public class Main {
 		}
 
 	/**
- * Updates a estate after the user enters the appropriate data.
- */
+        * Updates a estate after the user enters the appropriate data.
+        */
 	public static void updateEstate() {
 						int id = FormUtil.readInt("Enter the ID from the Estate to modify");
 
@@ -366,7 +368,8 @@ public class Main {
 										e.printStackTrace();
 						}
 	}
-	/**
+
+        /**
 	* Deletes an estate from the database.
 	*/
 	public static void deleteEstate(int id) {
@@ -382,11 +385,45 @@ public class Main {
 	/**
 	 * Creates a new contract after the user enters the appropriate data.
 	 */
-	public static void newContract() {
-		Contract c = new Contract();
+	public static void newTenancyContract() {
+		TenancyContract c = new TenancyContract();
+
+                String p_first_name = FormUtil.readString("Tenant first name");
+                String p_name = FormUtil.readString("Tenant name");
+                String p_address = FormUtil.readString("Tenant address");
+                Person p = Person.load(p_first_name, p_name, p_address);
+
+                if( p == null ){
+                    p = new Person(p_first_name, p_name, p_address);
+                    p.save();
+                }
+
+                int ap_id = FormUtil.readInt("Apartment id");
+
+                //Apartament ap = Apartament.load(ap_id);
+
+                if( p == null ){
+                    System.out.println("Invalid apartment id");
+                    return;
+                }
 
 		c.setDate(FormUtil.readString("Date"));
 		c.setPlace(FormUtil.readString("Place"));
+                c.setStartDate(FormUtil.readString("Start Date"));
+                c.setDuration(FormUtil.readInt("Duration"));
+                c.setAdditionalCost(FormUtil.readInt("Additional Cost"));
+		c.save();
+
+		System.out.println("Contract with number "+c.getContractNumber()+" was generated.");
+	}
+
+        public static void newPurchaseContract() {
+		PurchaseContract c = new PurchaseContract();
+
+		c.setDate(FormUtil.readString("Date"));
+		c.setPlace(FormUtil.readString("Place"));
+                c.setInstallments(FormUtil.readInt("Installments"));
+                c.setInterest(FormUtil.readInt("Interest Rate"));
 		c.save();
 
 		System.out.println("Contract with number "+c.getContractNumber()+" was generated.");
@@ -396,47 +433,46 @@ public class Main {
 	 * See all the contracts
 	 *//*
 	public static void seeContracts() {
-		int id = FormUtil.readInt("Enter the ID from the Estate to modify");
 
 		// Get connected
 		Connection con = DB2ConnectionManager.getInstance().getConnection();
 
 		try {
-						String selectSQL = "SELECT * FROM contract";
-						PreparedStatement pstmt = con.prepareStatement(selectSQL);
+                        String selectSQL = "SELECT * FROM contract";
+                        PreparedStatement pstmt = con.prepareStatement(selectSQL);
 
-						pstmt.setInt(1, id);
+                        pstmt.setInt(1, id);
 
-						ResultSet rs = pstmt.executeQuery();
-						if (rs.next()) {
-								Estate e = Estate.load(id);
+                        ResultSet rs = pstmt.executeQuery();
+                        if (rs.next()) {
+                                        Estate e = Estate.load(id);
 
-								System.out.println("Enter the new data:");
+                                        System.out.println("Enter the new data:");
 
-								e.setCity(FormUtil.readString("City"));
-								e.setPostalCode(FormUtil.readInt("Postal Code"));
-								e.setStreet(FormUtil.readString("Street"));
-								e.setStreetNumber(FormUtil.readInt("Street Number"));
-								e.setSquareArea(FormUtil.readInt("Square Area"));
-								e.save();
+                                        e.setCity(FormUtil.readString("City"));
+                                        e.setPostalCode(FormUtil.readInt("Postal Code"));
+                                        e.setStreet(FormUtil.readString("Street"));
+                                        e.setStreetNumber(FormUtil.readInt("Street Number"));
+                                        e.setSquareArea(FormUtil.readInt("Square Area"));
+                                        e.save();
 
-								System.out.println("Estate with ID "+e.getId()+" was updated.");
-						}
-						else System.out.println("Invalid Estate ID.");
+                                        System.out.println("Estate with ID "+e.getId()+" was updated.");
+                        }
+                        else System.out.println("Invalid Estate ID.");
 
 		} catch (SQLException e) {
 						e.printStackTrace();
 		}
-	}
-*/
+	}*/
+
 	/**
 	 * Creates a new contract after the user enters the appropriate data.
 	 */
-/*	public static void insertPerson() {
+	public static void insertPerson() {
 		Contract c = new Contract();
 
 		System.out.println("Contract with number "+c.getContractNumber()+" was generated.");
-	}*/
+	}
 
         /**
 	 * Ask for an username and password and try to log in
