@@ -16,7 +16,7 @@ import de.dis2011.data.DB2ConnectionManager;
  *
 
   CREATE TABLE Contract(contract_number INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY ,
-  contract_date varchar(255),
+  date varchar(255),
   place varchar(255));
 
 
@@ -121,9 +121,9 @@ public class Contract {
 			e.printStackTrace();
 		}
 	}
-        
-        
-        
+
+
+
 	public static Contract load(int contract_number) {
 		try {
 			// Hole Verbindung
@@ -152,9 +152,9 @@ public class Contract {
 		}
 		return null;
 	}
-        
+
         public void print(){
-            
+
         };
 
 

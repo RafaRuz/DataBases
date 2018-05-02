@@ -140,8 +140,7 @@ public class Apartament extends Estate {
 		Connection con = DB2ConnectionManager.getInstance().getConnection();
 
 		try {
-				// If an ID already exists, make an update ...
-				String updateSQL = "INSERT INTO Apartament(floor, rent, rooms, balcony, kitchen,estateid) VALUES (?, ?, ?, ?, ?, ? )";
+				String updateSQL = "INSERT INTO apartament(floor, rent, rooms, balcony, kitchen,estateid) VALUES (?, ?, ?, ?, ?, ? )";
 				PreparedStatement pstmt = con.prepareStatement(updateSQL);
 
 				// Set request parameters
@@ -182,9 +181,9 @@ public class Apartament extends Estate {
 
 				pstmt.setInt(1, getId());
 				pstmt.executeUpdate();
-                                
+
                                 super.delete();
-                                        
+
 
 				pstmt.close();
 			}
@@ -193,7 +192,7 @@ public class Apartament extends Estate {
 		}
 	}
 
-	
+
 
 
 }

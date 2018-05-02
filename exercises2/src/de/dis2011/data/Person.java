@@ -12,10 +12,12 @@ import de.dis2011.data.DB2ConnectionManager;
  * Person-Bean
  *
  Beispiel-Tabelle:
- CREATE TABLE Person(id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,
+ CREATE TABLE Person(id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE),
  first_name varchar(255),
  name varchar(255),
-  address varchar(255));
+  address varchar(255)),
+
+  PRIMARY KEY (id,first_name, name, address);
  */
 public class Person {
         private int id;
@@ -26,21 +28,21 @@ public class Person {
         public Person(){
             setId(-1);
         }
-        
+
         public Person( String first_name, String name, String address ){
             setFirstName(first_name);
             setName(name);
             setAddress(address);
         }
-        
+
         public int getId(){
             return this.id;
         }
-        
+
         public void setId(int id){
             this.id = id;
         }
-        
+
 	public String getFirstName() {
 		return first_name;
 	}
@@ -64,8 +66,8 @@ public class Person {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-        
-        
+
+
 
 	/**
 	 Saves Persons in the database. If no ID has yet been assigned,
@@ -116,7 +118,7 @@ public class Person {
 			e.printStackTrace();
 		}
 	}
-        
+
         public static Person load(int id) {
 		try {
 			// Hole Verbindung
@@ -146,7 +148,7 @@ public class Person {
 		}
 		return null;
 	}
-        
+
         public static Person load(String first_name, String name, String address ) {
 		try {
 			// Hole Verbindung

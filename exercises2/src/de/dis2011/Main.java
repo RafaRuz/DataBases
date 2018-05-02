@@ -121,16 +121,18 @@ public class Main {
 		//Menüoptionen1
 		final int NEW_APARTAMENT = 0;
 		final int NEW_HOUSE = 1;
-		final int UPDATE_ESTATE = 2;
-                final int DELETE_APARTAMENT = 3;
-		final int DELETE_HOUSE = 4;
-		final int BACK = 5;
+		final int UPDATE_APARTAMENT = 2;
+		final int UPDATE_HOUSE = 3;
+    final int DELETE_APARTAMENT = 4;
+		final int DELETE_HOUSE = 5;
+		final int BACK = 6;
 
 		//agentverwaltungsmenü
 		Menu estateMenu = new Menu("Estate Administration");
 		estateMenu.addEntry("New Apartament", NEW_APARTAMENT);
 		estateMenu.addEntry("New House", NEW_HOUSE);
-		estateMenu.addEntry("Update Estate", UPDATE_ESTATE);
+		estateMenu.addEntry("Update Apartment", UPDATE_APARTAMENT);
+		estateMenu.addEntry("Update House", UPDATE_HOUSE);
 		estateMenu.addEntry("Delete Estate", DELETE_APARTAMENT);
 		estateMenu.addEntry("Delete House", DELETE_HOUSE);
 		estateMenu.addEntry("Back to Main Menu", BACK);
@@ -146,11 +148,14 @@ public class Main {
 				case NEW_HOUSE:
 					newHouseEstate();
 					break;
-				case UPDATE_ESTATE:
-					updateEstate();
+				case UPDATE_APARTAMENT:
+					updateApartament();
+					break;
+				case UPDATE_HOUSE:
+					updateHouse();
 					break;
 				case DELETE_APARTAMENT:
-					deleteApartament(FormUtil.readInt("ID"));
+					ardenpartament(FormUtil.readInt("ID"));
 					break;
 				case DELETE_HOUSE:
 					deleteHouse(FormUtil.readInt("ID"));
@@ -340,34 +345,60 @@ public class Main {
 		}
 
 	/**
-        * Updates a estate after the user enters the appropriate data.
+        * Updates a Apartament after the user enters the appropriate data.
         */
-	public static void updateEstate() {
-						int id = FormUtil.readInt("Enter the ID from the Estate to modify");
+	public static void updateApartament() {
+						int id = FormUtil.readInt("Enter the ID from the Apartament to modify");
 
 						// Get connected
 						Connection con = DB2ConnectionManager.getInstance().getConnection();
 
 						try {
-										String selectSQL = "SELECT * FROM estate WHERE estateid = ?";
+										String selectSQL = "SELECT * FROM apartament WHERE estateid = ?";
 										PreparedStatement pstmt = con.prepareStatement(selectSQL);
 
 										pstmt.setInt(1, id);
 
 										ResultSet rs = pstmt.executeQuery();
 										if (rs.next()) {
-												Estate e = Estate.load(id);
+												Apartament e = Apartament.load(id);
 
-												System.out.println("Enter the new data:");
 
-												e.setCity(FormUtil.readString("City"));
-												e.setPostalCode(FormUtil.readInt("Postal Code"));
-												e.setStreet(FormUtil.readString("Street"));
-												e.setStreetNumber(FormUtil.readInt("Street Number"));
-												e.setSquareArea(FormUtil.readInt("Square Area"));
-												e.save();
 
-												System.out.println("Estate with ID "+e.getId()+" was updated.");
+												String updateSQL1 = "UPDATE Estate SET city = ?, postal_code = ?, street = ?, street_number = ?, square_area = ? WHERE estateid = ?";
+												PreparedStatement pstmt2 = con.prepareStatement(updateSQL1);
+
+												// Set request parameters
+												pstmt2.setString(1, FormUtil.readString("City"));
+												pstmt2.setInt(2, FormUtil.readInt("Postal Code"));
+												pstmt2.setString(3, FormUtil.readString("Street"));
+												pstmt2.setInt(4, FormUtil.readInt("Street Number"));
+												pstmt2.setInt(5,FormUtil.readInt("Square Area"));
+												pstmt2.setInt(6, e.getId());
+
+
+												pstmt2.executeUpdate();
+
+
+
+												String updateSQL = "UPDATE Apartament SET floor = ?, rent = ?, rooms = ?, balcony = ?, kitchen = ? WHERE estateid = ?";
+												PreparedStatement pstmt1 = con.prepareStatement(updateSQL);
+
+												pstmt1.setInt(1, FormUtil.readInt("Floor"));
+												pstmt1.setInt(2, FormUtil.readInt("Rent"));
+												pstmt1.setInt(3, FormUtil.readInt("Rooms"));
+												pstmt1.setInt(4, FormUtil.readInt("Balcony"));
+												pstmt1.setInt(5, FormUtil.readInt("Kitchen"));
+												pstmt1.setInt(6, e.getId());
+												pstmt1.executeUpdate();
+
+												rs.close();
+												pstmt.close();
+												pstmt1.close();
+												pstmt2.close();
+
+
+												System.out.println("Apartment with ID "+e.getId()+" was updated.");
 										}
 										else System.out.println("Invalid Estate ID.");
 
@@ -376,10 +407,72 @@ public class Main {
 						}
 	}
 
+
+		/**
+	        * Updates a House after the user enters the appropriate data.
+	        */
+		public static void updateHouse() {
+							int id = FormUtil.readInt("Enter the ID from the House to modify");
+
+							// Get connected
+							Connection con = DB2ConnectionManager.getInstance().getConnection();
+
+							try {
+											String selectSQL = "SELECT * FROM House WHERE estateid = ?";
+											PreparedStatement pstmt = con.prepareStatement(selectSQL);
+
+											pstmt.setInt(1, id);
+
+											ResultSet rs = pstmt.executeQuery();
+											if (rs.next()) {
+												 	House e = House.load(id);
+
+
+
+													String updateSQL1 = "UPDATE Estate SET city = ?, postal_code = ?, street = ?, street_number = ?, square_area = ? WHERE estateid = ?";
+													PreparedStatement pstmt2 = con.prepareStatement(updateSQL1);
+
+													// Set request parameters
+													pstmt2.setString(1, FormUtil.readString("City"));
+													pstmt2.setInt(2, FormUtil.readInt("Postal Code"));
+													pstmt2.setString(3, FormUtil.readString("Street"));
+													pstmt2.setInt(4, FormUtil.readInt("Street Number"));
+													pstmt2.setInt(5,FormUtil.readInt("Square Area"));
+													pstmt2.setInt(6, e.getId());
+
+
+													pstmt2.executeUpdate();
+
+
+
+													String updateSQL = "UPDATE House SET floors = ?, price = ?, garden = ? WHERE estateid = ?";
+													PreparedStatement pstmt1 = con.prepareStatement(updateSQL);
+
+													pstmt1.setInt(1, FormUtil.readInt("Floors"));
+													pstmt1.setInt(2, FormUtil.readInt("Price"));
+													pstmt1.setInt(3, FormUtil.readInt("Garden"));
+													pstmt1.setInt(4, e.getId());
+													pstmt1.executeUpdate();
+
+													rs.close();
+													pstmt.close();
+													pstmt1.close();
+													pstmt2.close();
+
+
+													System.out.println("House with ID "+e.getId()+" was updated.");
+											}
+											else System.out.println("Invalid Estate ID.");
+
+							} catch (SQLException e) {
+											e.printStackTrace();
+							}
+		}
+
         /**
 	* Deletes an apartament from the database.
 	*/
-	public static void deleteApartament(int id) {
+	public static void ardenpartament(int id) {
 		Apartament e = Apartament.load(id);
 
 		if( e != null ){
@@ -440,7 +533,7 @@ else System.out.println("Unexistent Estate ID.");
 	 */
         public static void newPurchaseContract() {
 		PurchaseContract c = new PurchaseContract();
-                
+
                 String p_first_name = FormUtil.readString("Buying person first name");
                 String p_name = FormUtil.readString("Buying person name");
                 String p_address = FormUtil.readString("Buying person address");
@@ -479,7 +572,7 @@ else System.out.println("Unexistent Estate ID.");
 
 		try {
                         System.out.println("Tenancy Contracts");
-                        
+
                         String selectSQL1 = "SELECT contract_number FROM TenancyContract";
                         PreparedStatement pstmt1 = con.prepareStatement(selectSQL1);
 
@@ -488,12 +581,12 @@ else System.out.println("Unexistent Estate ID.");
                         while(rs1.next()) {
                                 int c_number = rs1.getInt("contract_number");
                                 TenancyContract tc = TenancyContract.load(c_number);
-                                
+
                                 tc.print();
                         }
-                        
+
                         System.out.println("Purchase Contracts");
-                        
+
                         String selectSQL2 = "SELECT contract_number FROM PurchaseContract";
                         PreparedStatement pstmt2 = con.prepareStatement(selectSQL2);
 
@@ -502,7 +595,7 @@ else System.out.println("Unexistent Estate ID.");
                         while(rs2.next()) {
                                 int c_number = rs2.getInt("contract_number");
                                 PurchaseContract pc = PurchaseContract.load(c_number);
-                                
+
                                 pc.print();
                         }
 
@@ -520,7 +613,7 @@ else System.out.println("Unexistent Estate ID.");
 		p.setFirstName(FormUtil.readString("First name"));
                 p.setName(FormUtil.readString("Name"));
                 p.setAddress(FormUtil.readString("Address"));
-                
+
                 p.save();
 	}
 
