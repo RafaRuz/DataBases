@@ -41,7 +41,32 @@ public class PurchaseContract extends Contract{
 		this.interest = interest;
 	}
 
+        /**
+	 Saves PurchaseContract in the database. If no ID has yet been assigned,
+	 the enerated id is fetched from DB2 and passed to the model.
+	 */
+	public void save() {
+		// Get connected
+		Connection con = DB2ConnectionManager.getInstance().getConnection();
 
+                super.save();
+                
+		try {
+                        // If an ID already exists, make an update ...
+                        String updateSQL = "INSERT INTO PurchaseContract(contract_number,installments, interest) VALUES (?,?, ?)";
+                        PreparedStatement pstmt = con.prepareStatement(updateSQL);
+
+                        // Set request parameters
+                        pstmt.setInt(1, super.getContractNumber());
+                        pstmt.setInt(2, getInstallments());
+                        pstmt.setInt(3, getInterest());
+                        pstmt.executeUpdate();
+
+                        pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 
 }
