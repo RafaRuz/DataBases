@@ -65,8 +65,11 @@ public class Main {
 
 			switch(response) {
 				case MENU_AGENT:
-					showEstateAgentMenu();
-					break;
+                                    showEstateAgentMenu();
+                                    break;
+                                case SHOW_CONTRACTS:
+                                    showContracts();
+                                    break;
                                 //case MENU_ESTATE:
 				//	showEstateMenu();
 				//	break;
@@ -77,7 +80,7 @@ public class Main {
                                     if( login() )   showLoggedAgentMenu();
                                     break;
 				case QUIT:
-					return;
+                                    return;
 			}
 		}
 	}
@@ -418,12 +421,12 @@ else System.out.println("Unexistent Estate ID.");
 
                 int ap_id = FormUtil.readInt("Apartment id");
 
-                /*Apartament ap = Apartament.load(ap_id);
+                Apartament ap = Apartament.load(ap_id);
 
                 if( ap == null ){
                     System.out.println("Invalid apartment id");
                     return;
-                }*/
+                }
 
 		c.setDate(FormUtil.readString("Date"));
 		c.setPlace(FormUtil.readString("Place"));
@@ -451,14 +454,14 @@ else System.out.println("Unexistent Estate ID.");
                     p.save();
                 }
 
-                int ap_id = FormUtil.readInt("Apartment id");
+                int ap_id = FormUtil.readInt("House id");
 
-                /*Apartament ap = Apartament.load(ap_id);
+                House ap = House.load(ap_id);
 
                 if( ap == null ){
                     System.out.println("Invalid apartment id");
                     return;
-                }*/
+                }
 
 		c.setDate(FormUtil.readString("Date"));
 		c.setPlace(FormUtil.readString("Place"));
@@ -472,7 +475,7 @@ else System.out.println("Unexistent Estate ID.");
 	/**
 	 * See all the contracts
 	 */
-	public static void seeContracts() {
+	public static void showContracts() {
 
 		// Get connected
 		Connection con = DB2ConnectionManager.getInstance().getConnection();

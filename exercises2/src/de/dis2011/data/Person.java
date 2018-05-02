@@ -153,7 +153,7 @@ public class Person {
 			Connection con = DB2ConnectionManager.getInstance().getConnection();
 
 			// Erzeuge Anfrage
-			String selectSQL = "SELECT * FROM Person WHERE first_name = ?, name = ?, address = ?";
+			String selectSQL = "SELECT * FROM Person WHERE first_name = ? AND name = ? AND address = ?";
 			PreparedStatement pstmt = con.prepareStatement(selectSQL);
 			pstmt.setString(1, first_name);
                         pstmt.setString(2, name);

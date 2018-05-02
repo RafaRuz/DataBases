@@ -89,7 +89,6 @@ public class TenancyContract extends Contract{
 
 				// Set request parameters
                                 pstmt.setInt(1, super.getContractNumber());
-                                System.out.println(super.getContractNumber());
 				pstmt.setString(2, getStartDate());
 				pstmt.setInt(3, getDuration());
                                 pstmt.setInt(4, getAdditionalCost());
@@ -109,20 +108,20 @@ public class TenancyContract extends Contract{
 			Connection con = DB2ConnectionManager.getInstance().getConnection();
 
                        
-                        String selectSQL = "SELECT * FROM contract WHERE id = ?";
+                        String selectSQL = "SELECT * FROM Contract WHERE contract_number = ?";
 			PreparedStatement pstmt = con.prepareStatement(selectSQL);
 			pstmt.setInt(1, contract_number);
 
 			// Führe Anfrage aus
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
-                            String selectSQL2 = "SELECT * FROM TenancyContract WHERE id = ?";
+                            String selectSQL2 = "SELECT * FROM TenancyContract WHERE contract_number = ?";
                             PreparedStatement pstmt2 = con.prepareStatement(selectSQL2);
                             pstmt2.setInt(1, contract_number);
 
                             // Führe Anfrage aus
                             ResultSet rs2 = pstmt2.executeQuery();
-                            if (rs.next()) {
+                            if (rs2.next()) {
 
                                     TenancyContract c = new TenancyContract();
                                     c.setContractNumber(contract_number);
