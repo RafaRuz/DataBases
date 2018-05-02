@@ -109,6 +109,7 @@ public class Estate {
 			if (rs.next()) {
 
 				Estate ts = new Estate();
+
 				ts.setId(id);
 				ts.setCity(rs.getString("City"));
 			//	ts.setPostalCode(rs.getInt("Postal Code"));

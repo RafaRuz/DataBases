@@ -166,12 +166,12 @@ public class Main {
 				case NEW_CONTRACT:
 					newContract();
 					break;
-				case SEE_CONTRACT:
+				/*case SEE_CONTRACT:
 					seeContracts();
 					break;
 				case INSERT_PERSON:
 					insertPerson();
-					break;
+					break;*/
 				case BACK:
 					return;
 			}
