@@ -16,23 +16,22 @@ import de.dis2011.data.DB2ConnectionManager;
  *
  * Beispiel-Tabelle:
 
- CREATE TABLE TenancyContract(contract_number INTEGER NOT NULL PRIMARY KEY,
- start_date varchar(255),
- duration INTEGER,
- additional_cost INTEGER,
+ CREATE TABLE TenancyContract(contract_number INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,
+ contract_start_date date,
+ place varchar(255),
  FOREIGN KEY(contract_number) REFERENCES Contract(contract_number)
  );
  */
 public class TenancyContract extends Contract{
-	private Date start_date;
+	private String start_date;
 	private int duration;
-	private int aditional_cost;
+	private int additional_cost;
 
 
-	public Date getStartDate(){
+	public String getStartDate(){
 		return start_date;
 	}
-	public void setStartDate(Date start_date){
+	public void setStartDate(String start_date){
 		this.start_date = start_date;
 	}
 
@@ -42,15 +41,66 @@ public class TenancyContract extends Contract{
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
-	public int getAditionalCost() {
-		return aditional_cost;
+	public int getAdditionalCost() {
+		return additional_cost;
 	}
 
-	public void setAditionalCost(int aditional_cost) {
-		this.aditional_cost = aditional_cost;
+	public void setAdditionalCost(int additional_cost) {
+		this.additional_cost = additional_cost;
 	}
 
+        /**
+	 Saves TenancyContract in the database. If no ID has yet been assigned,
+	 the enerated id is fetched from DB2 and passed to the model.
+	 */
+	public void save() {
+		// Get connected
+		Connection con = DB2ConnectionManager.getInstance().getConnection();
 
+                super.save();
+                
+		try {
+			// Add a new element if the object does not already have an ID.
+			/*if ( super.getContractNumber() == -1 ) {
+				//Attention, here a parameter is given, so that later generated IDs are returned!
+				String insertSQL = "INSERT INTO TenancyContract(start_date, duration, additional_cost) VALUES (?,?, ?)";
+
+				PreparedStatement pstmt = con.prepareStatement(insertSQL,
+						Statement.RETURN_GENERATED_KEYS);
+
+				// Set request parameters and execute request
+				pstmt.setString(1, getStartDate());
+				pstmt.setInt(2, getDuration());
+                                pstmt.setInt(3, getAdditionalCost());
+				pstmt.executeUpdate();
+
+				// Get the id of the tight set
+				ResultSet rs = pstmt.getGeneratedKeys();
+				if (rs.next()) {
+					super.setContractNumber(rs.getInt(1));
+				}
+
+				rs.close();
+				pstmt.close();
+			} else {*/
+				// If an ID already exists, make an update ...
+				String updateSQL = "INSERT INTO TenancyContract(contract_number, start_date, duration, additional_cost) VALUES (?,?,?,?)";
+				PreparedStatement pstmt = con.prepareStatement(updateSQL);
+
+				// Set request parameters
+                                pstmt.setInt(1, super.getContractNumber());
+                                System.out.println(super.getContractNumber());
+				pstmt.setString(2, getStartDate());
+				pstmt.setInt(3, getDuration());
+                                pstmt.setInt(4, getAdditionalCost());
+				pstmt.executeUpdate();
+
+				pstmt.close();
+			//}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 
 }
