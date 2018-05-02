@@ -5,7 +5,7 @@ import de.dis2011.data.Estate;
 import de.dis2011.data.Contract;
 import de.dis2011.data.Apartament;
 import de.dis2011.data.House;
-import de.dis2011.data.TenancyContract;    
+import de.dis2011.data.TenancyContract;
 import de.dis2011.data.PurchaseContract;
 
 
@@ -120,15 +120,17 @@ public class Main {
 		final int NEW_APARTAMENT = 0;
 		final int NEW_HOUSE = 1;
 		final int UPDATE_ESTATE = 2;
-    final int DELETE_ESTATE = 3;
-		final int BACK = 4;
+                final int DELETE_APARTAMENT = 3;
+		final int DELETE_HOUSE = 4;
+		final int BACK = 5;
 
 		//agentverwaltungsmenü
 		Menu estateMenu = new Menu("Estate Administration");
 		estateMenu.addEntry("New Apartament", NEW_APARTAMENT);
 		estateMenu.addEntry("New House", NEW_HOUSE);
 		estateMenu.addEntry("Update Estate", UPDATE_ESTATE);
-		estateMenu.addEntry("Delete Estate", DELETE_ESTATE);
+		estateMenu.addEntry("Delete Estate", DELETE_APARTAMENT);
+		estateMenu.addEntry("Delete House", DELETE_HOUSE);
 		estateMenu.addEntry("Back to Main Menu", BACK);
 
 		//Verarbeite Eingabe
@@ -145,8 +147,11 @@ public class Main {
 				case UPDATE_ESTATE:
 					updateEstate();
 					break;
-				case DELETE_ESTATE:
-					deleteEstate(FormUtil.readInt("ID"));
+				case DELETE_APARTAMENT:
+					deleteApartament(FormUtil.readInt("ID"));
+					break;
+				case DELETE_HOUSE:
+					deleteHouse(FormUtil.readInt("ID"));
 					break;
 					case BACK:
 						return;
@@ -370,18 +375,29 @@ public class Main {
 	}
 
         /**
-	* Deletes an estate from the database.
+	* Deletes an apartament from the database.
 	*/
-	public static void deleteEstate(int id) {
-		Estate e = Estate.load(id);
+	public static void deleteApartament(int id) {
+		Apartament e = Apartament.load(id);
 
 		if( e != null ){
 			e.delete();
-			System.out.println("Estate with ID "+Integer.toString(id)+" was deleted.");
+			System.out.println("Apartament with ID "+Integer.toString(id)+" was deleted.");
 		}
 		else System.out.println("Unexistent Estate ID.");
 	}
+	/**
+* Deletes a House from the database.
+*/
+public static void deleteHouse(int id) {
+House e = House.load(id);
 
+if( e != null ){
+e.delete();
+System.out.println("House with ID "+Integer.toString(id)+" was deleted.");
+}
+else System.out.println("Unexistent Estate ID.");
+}
 	/**
 	 * Creates a new contract after the user enters the appropriate data.
 	 */

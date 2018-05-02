@@ -57,18 +57,78 @@ public class Apartament extends Estate {
 		return balcony ? 1:0;
 	}
 
-	public void setBalcony(boolean balcony){
-		this.balcony = balcony;
+	public void setBalcony(int balcony){
+                if (balcony ==0) this.balcony = (false);
+                else this.balcony = true;
+	}
+        public void setBalcony(boolean balcony){
+               this.balcony = balcony;
 	}
 
 	public int getKitchen(){
 		return kitchen ? 1:0;
 	}
 
-	public void setKitchen(boolean kitchen){
+	public void setKitchen(int kitchen){
+		if (kitchen ==0) this.kitchen = (false);
+                else this.kitchen = true;
+	}
+        public void setKitchen(boolean kitchen){
 		this.kitchen = kitchen;
 	}
+	/**
+	 * Lädt einen Estate aus der Datenbank
+	 * @param id ID des zu ladenden Estate
+	 * @return Estate-Instanz
+	 */
+	public static Apartament load(int id) {
+		try {
+			// Hole Verbindung
+			Connection con = DB2ConnectionManager.getInstance().getConnection();
 
+			// Erzeuge Anfrage
+			String selectSQL = "SELECT * FROM apartament WHERE estateid = ?";
+			PreparedStatement pstmt = con.prepareStatement(selectSQL);
+			pstmt.setInt(1, id);
+
+			// Führe Anfrage aus
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+
+				Apartament ts = new Apartament();
+
+				ts.setId(id);
+				ts.setFloor(rs.getInt("Floor"));
+				ts.setRent(rs.getInt("Rent"));
+				ts.setRooms(rs.getInt("Rooms"));
+				ts.setBalcony(rs.getInt("Balcony"));
+				ts.setKitchen(rs.getInt("Kitchen"));
+				String selectSQL1 = "SELECT * FROM estate WHERE estateid = ?";
+				PreparedStatement pstmt1 = con.prepareStatement(selectSQL1);
+				pstmt1.setInt(1, id);
+
+				// Führe Anfrage aus
+				ResultSet rs1 = pstmt1.executeQuery();
+				if (rs1.next()) {
+
+				ts.setCity(rs1.getString("City"));
+				ts.setPostalCode(rs1.getInt("Postal_Code"));
+				ts.setStreet(rs1.getString("Street"));
+				ts.setStreetNumber(rs1.getInt("Street_Number"));
+				ts.setSquareArea(rs1.getInt("Square_Area"));
+				rs1.close();
+				pstmt1.close();
+}
+
+				rs.close();
+				pstmt.close();
+				return ts;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	/**
 	 Saves Apartament in the database. If no ID has yet been assigned,
 	 the enerated id is fetched from DB2 and passed to the model.
@@ -99,35 +159,41 @@ public class Apartament extends Estate {
 			e.printStackTrace();
 		}
 	}
-/*
+
 	/**
 	 Delete Apartament in the database.
-	 
-	public void delete(int id) {
-		String selectSQL = "SELECT * FROM apartamet WHERE estateid = ?";
-		PreparedStatement pstmt = con.prepareStatement(selectSQL);
+*/
+	public void delete() {
+		// Get connected
+		Connection con = DB2ConnectionManager.getInstance().getConnection();
 
-		pstmt.setInt(1, id);
+		try {
+			// Check if the Estate already exists
+			if (getId() == -1) {
 
-		ResultSet rs = pstmt.executeQuery();
-		if (rs.next()) {
-			// If an ID already exists, delete it
-			String deleteSQL = "DELETE FROM apartamet WHERE estateid = ?";
-			PreparedStatement pstmt2 = con.prepareStatement(deleteSQL);
-			pstmt2.executeUpdate();
-
-			pstmt2.close();
-
+				System.out.println("This apartament is not in the database.");
 			} else {
-				System.out.println("This apartamet is not in the database.");
-			}
-			pstmt.close();
+				// If an ID already exists, delete it
+				String deleteSQL = "DELETE FROM apartament WHERE estateid = ?";
+				PreparedStatement pstmt = con.prepareStatement(deleteSQL);
 
-		 catch (SQLException e) {
+
+				// Set request parameters
+
+				pstmt.setInt(1, getId());
+				pstmt.executeUpdate();
+                                
+                                super.delete();
+                                        
+
+				pstmt.close();
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	*/
+
+	
 
 
 }

@@ -185,28 +185,28 @@ public class Estate {
 	 Delete Estate in the database.
 	 */
 	public void delete() {
+		// Get connected
 		Connection con = DB2ConnectionManager.getInstance().getConnection();
-	try {
-		String selectSQL = "SELECT * FROM estate WHERE estateid = ?";
-		PreparedStatement pstmt = con.prepareStatement(selectSQL);
 
-		pstmt.setInt(1, getId());
+		try {
+			// Check if the Estate already exists
+			if (getId() == -1) {
 
-		ResultSet rs = pstmt.executeQuery();
-		if (rs.next()) {
-			// If an ID already exists, delete it
-			String deleteSQL = "DELETE FROM estate WHERE estateid = ?";
-			PreparedStatement pstmt2 = con.prepareStatement(deleteSQL);
-			pstmt2.executeUpdate();
-
-			pstmt2.close();
-
-			} else {
 				System.out.println("This estate is not in the database.");
-			}
-			pstmt.close();
+			} else {
+				// If an ID already exists, delete it
+				String deleteSQL = "DELETE FROM estate WHERE estateid = ?";
+				PreparedStatement pstmt = con.prepareStatement(deleteSQL);
 
-        }catch (SQLException e) {
+
+				// Set request parameters
+
+				pstmt.setInt(1, getId());
+				pstmt.executeUpdate();
+
+				pstmt.close();
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
