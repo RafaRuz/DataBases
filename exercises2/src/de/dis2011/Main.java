@@ -44,15 +44,15 @@ public class Main {
 	public static void showMainMenu() {
 		//Menüoptionen
 		final int MENU_AGENT = 0;
-                final int SHOW_CONTRACTS = 1;
-                //final int MENU_ESTATE = 1;
-                //final int MENU_CONTRACT = 2;
-                final int LOGIN = 2;
-		final int QUIT = 3;
+                final int INSERT_PERSON = 1;
+                final int SHOW_CONTRACTS = 2;
+                final int LOGIN = 3;
+		final int QUIT = 4;
 
 		//Erzeuge Menü
 		Menu mainMenu = new Menu("Main Menu");
 		mainMenu.addEntry("Agent Administration", MENU_AGENT);
+                mainMenu.addEntry("Insert Person", INSERT_PERSON);
                 mainMenu.addEntry("Login", LOGIN);
                 mainMenu.addEntry("Show Contracts", SHOW_CONTRACTS);
                 //mainMenu.addEntry("Estate Administration", MENU_ESTATE);
@@ -70,12 +70,9 @@ public class Main {
                                 case SHOW_CONTRACTS:
                                     showContracts();
                                     break;
-                                //case MENU_ESTATE:
-				//	showEstateMenu();
-				//	break;
-                                //case MENU_CONTRACT:
-				//	showContractMenu();
-				//	break;
+                                case INSERT_PERSON:
+                                    insertPerson();
+                                    break;
                                 case LOGIN:
                                     if( login() )   showLoggedAgentMenu();
                                     break;
@@ -391,10 +388,11 @@ public class Main {
 		}
 		else System.out.println("Unexistent Estate ID.");
 	}
+        
 	/**
-* Deletes a House from the database.
-*/
-public static void deleteHouse(int id) {
+        * Deletes a House from the database.
+        */
+        public static void deleteHouse(int id) {
 House e = House.load(id);
 
 if( e != null ){
@@ -406,6 +404,7 @@ else System.out.println("Unexistent Estate ID.");
 	/**
 	 * Creates a new tenancy contract after the user enters the appropriate data.
 	 */
+        
 	public static void newTenancyContract() {
 		TenancyContract c = new TenancyContract();
 

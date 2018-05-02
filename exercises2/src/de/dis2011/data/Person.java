@@ -76,6 +76,12 @@ public class Person {
 		Connection con = DB2ConnectionManager.getInstance().getConnection();
 
 		try {
+                    
+                        Person p = Person.load(getFirstName(),getName(),getAddress());
+                        
+                        if( p != null ){
+                            this.setId(p.getId());
+                        }
 			// Add a new element if the object does not already have an ID.
 			if (getId() == -1) {
 				//Attention, here a parameter is given, so that later generated IDs are returned!
