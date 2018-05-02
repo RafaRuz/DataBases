@@ -18,6 +18,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -519,13 +520,32 @@ else System.out.println("Unexistent Estate ID.");
                     System.out.println("Invalid apartment id");
                     return;
                 }
-
-		c.setDate(FormUtil.readString("Date"));
+                
+                c.setDate(FormUtil.readString("Date"));
 		c.setPlace(FormUtil.readString("Place"));
                 c.setStartDate(FormUtil.readString("Start Date"));
                 c.setDuration(FormUtil.readInt("Duration"));
                 c.setAdditionalCost(FormUtil.readInt("Additional Cost"));
-		c.save();
+                
+                Connection con = DB2ConnectionManager.getInstance().getConnection();
+                
+                try {
+                    String insertSQL = "INSERT INTO Rents(id_person,id_apartment,tenancy_contract_number) VALUES (?,?,?)";
+
+                    PreparedStatement pstmt = con.prepareStatement(insertSQL);
+
+                    // Set request parameters and execute request
+                    pstmt.setInt(1, p.getId());
+                    pstmt.setInt(2,ap_id);
+                    pstmt.setInt(3, c.getContractNumber());
+                    pstmt.executeUpdate();
+
+                    pstmt.close();
+                    c.save();
+                } catch (SQLException e) {
+                    //e.printStackTrace();
+                    System.out.println("The apartment already has a contract.");
+		}
 
 		System.out.println("Contract with number "+c.getContractNumber()+" was generated.");
 	}
@@ -559,7 +579,25 @@ else System.out.println("Unexistent Estate ID.");
 		c.setPlace(FormUtil.readString("Place"));
                 c.setInstallments(FormUtil.readInt("Installments"));
                 c.setInterest(FormUtil.readInt("Interest Rate"));
-		c.save();
+                
+                Connection con = DB2ConnectionManager.getInstance().getConnection();
+                
+                try {String insertSQL = "INSERT INTO Sells(id_person,id_house,purchase_contract_number) VALUES (?,?,?)";
+
+                    PreparedStatement pstmt = con.prepareStatement(insertSQL);
+
+                    // Set request parameters and execute request
+                    pstmt.setInt(1, p.getId());
+                    pstmt.setInt(2,ap_id);
+                    pstmt.setInt(3, c.getContractNumber());
+                    pstmt.executeUpdate();
+
+                    pstmt.close();
+                    c.save();
+                } catch (SQLException e) {
+                    //e.printStackTrace();
+                    System.out.println("The house already has a contract.");
+		}
 
 		System.out.println("Contract with number "+c.getContractNumber()+" was generated.");
 	}
