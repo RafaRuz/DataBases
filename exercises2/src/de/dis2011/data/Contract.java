@@ -121,6 +121,41 @@ public class Contract {
 			e.printStackTrace();
 		}
 	}
+        
+        
+        
+	public static Contract load(int contract_number) {
+		try {
+			// Hole Verbindung
+			Connection con = DB2ConnectionManager.getInstance().getConnection();
+
+			// Erzeuge Anfrage
+			String selectSQL = "SELECT * FROM contract WHERE id = ?";
+			PreparedStatement pstmt = con.prepareStatement(selectSQL);
+			pstmt.setInt(1, contract_number);
+
+			// Führe Anfrage aus
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+
+				Contract c = new Contract();
+				c.setContractNumber(contract_number);
+				c.setDate(rs.getString("date"));
+				c.setPlace(rs.getString("place"));
+
+				rs.close();
+				pstmt.close();
+				return c;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+        
+        public void print(){
+            
+        };
 
 
 }

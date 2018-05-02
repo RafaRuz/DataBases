@@ -67,6 +67,57 @@ public class PurchaseContract extends Contract{
 			e.printStackTrace();
 		}
 	}
+        
+        
+        
+        public static PurchaseContract load(int contract_number) {
+		try {
+			// Hole Verbindung
+			Connection con = DB2ConnectionManager.getInstance().getConnection();
+
+                       
+                        String selectSQL = "SELECT * FROM contract WHERE id = ?";
+			PreparedStatement pstmt = con.prepareStatement(selectSQL);
+			pstmt.setInt(1, contract_number);
+
+			// Führe Anfrage aus
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+                            String selectSQL2 = "SELECT * FROM PurchaseContract WHERE id = ?";
+                            PreparedStatement pstmt2 = con.prepareStatement(selectSQL2);
+                            pstmt2.setInt(1, contract_number);
+
+                            // Führe Anfrage aus
+                            ResultSet rs2 = pstmt2.executeQuery();
+                            if (rs.next()) {
+
+                                    PurchaseContract c = new PurchaseContract();
+                                    c.setContractNumber(contract_number);
+                                    c.setDate(rs.getString("date"));
+                                    c.setPlace(rs.getString("place"));
+                                    c.setInstallments(rs.getInt("installments"));
+                                    c.setInterest(rs.getInt("interest"));
+
+                                    rs.close();
+                                    pstmt.close();
+                                    return c;
+                            }
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+        
+        public void print(){
+            System.out.println("Contract number: " + getContractNumber());
+            System.out.println("Date: " + getDate());
+            System.out.println("Place: " + getPlace());
+            System.out.println("Installments: " + getInstallments());
+            System.out.println("Interest Rate: " + getInterest());
+            System.out.println();
+        }
 
 
 }
