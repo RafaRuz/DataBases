@@ -141,7 +141,8 @@ public class Main {
 			}
 		}
 	}
-	/**
+	
+        /**
 	 * Shows Contract management
 	 */
 	public static void showContractMenu() {
@@ -354,7 +355,7 @@ public class Main {
 
 	/**
 	 * See all the contracts
-	 *//*
+	 */
 	public static void seeContracts() {
 		int id = FormUtil.readInt("Enter the ID from the Estate to modify");
 
@@ -388,15 +389,15 @@ public class Main {
 						e.printStackTrace();
 		}
 	}
-*/
+
 	/**
 	 * Creates a new contract after the user enters the appropriate data.
 	 */
-/*	public static void insertPerson() {
+	public static void insertPerson() {
 		Contract c = new Contract();
 
 		System.out.println("Contract with number "+c.getContractNumber()+" was generated.");
-	}*/
+	}
 
         /**
 	 * Ask for an username and password and try to log in
