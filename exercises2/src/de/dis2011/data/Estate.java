@@ -21,13 +21,12 @@ import de.dis2011.data.DB2ConnectionManager;
 
 
 	CREATE TABLE Management(
-id_person INTEGER,
-id_apartment INTEGER UNIQUE NOT NULL,
-tenancy_contract_number INTEGER NOT NULL,
-PRIMARY KEY(tenancy_contract_number),
-FOREIGN KEY(id_person) REFERENCES Person(id),
-FOREIGN KEY(id_apartment) REFERENCES House(id),
-FOREIGN KEY(tenancy_contract_number) REFERENCES TENANCYCONTRACT(contract_number)
+id_agent INTEGER,
+id_estate INTEGER UNIQUE NOT NULL,
+PRIMARY KEY(id_estate),
+FOREIGN KEY(id_agent) REFERENCES EstateAgent(id),
+FOREIGN KEY(id_estate) REFERENCES Estate(id),
+
 );
 
 

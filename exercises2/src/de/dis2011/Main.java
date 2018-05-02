@@ -155,7 +155,7 @@ public class Main {
 					updateHouse();
 					break;
 				case DELETE_APARTAMENT:
-					ardenpartament(FormUtil.readInt("ID"));
+					deleteApartament(FormUtil.readInt("ID"));
 					break;
 				case DELETE_HOUSE:
 					deleteHouse(FormUtil.readInt("ID"));
@@ -318,6 +318,23 @@ public class Main {
                 e.setKitchen(kitchen);
 		e.save();
 
+		try {
+                    Connection con = DB2ConnectionManager.getInstance().getConnection();
+
+                    String insertSQL = "INSERT INTO Management(id_agent,id_estate) VALUES (?,?)";
+
+                    PreparedStatement pstmt = con.prepareStatement(insertSQL);
+
+                    // Set request parameters and execute request
+                    pstmt.setInt(1, actualEstateAgent.getId());
+                    pstmt.setInt(2, e.getId());
+                    pstmt.executeUpdate();
+
+                    pstmt.close();
+                } catch (SQLException y) {
+                    y.printStackTrace();
+  }
+
 		System.out.println("Apartament with ID "+e.getId()+" was generated.");
 	}
 
@@ -337,9 +354,26 @@ public class Main {
 			e.setSquareArea(FormUtil.readInt("Square Area"));
 			e.setFloors(FormUtil.readInt("Floors"));
 			e.setPrice(FormUtil.readInt("Price"));
-		                boolean garden = (FormUtil.readInt("Gardeb") != 0);
+		                boolean garden = (FormUtil.readInt("Garden") != 0);
 	                e.setGarden(garden);
 			e.save();
+
+			try {
+											Connection con = DB2ConnectionManager.getInstance().getConnection();
+
+											String insertSQL = "INSERT INTO Management(id_agent,id_estate) VALUES (?,?)";
+
+											PreparedStatement pstmt = con.prepareStatement(insertSQL);
+
+											// Set request parameters and execute request
+											pstmt.setInt(1, actualEstateAgent.getId());
+											pstmt.setInt(2, e.getId());
+											pstmt.executeUpdate();
+
+											pstmt.close();
+									} catch (SQLException y) {
+											y.printStackTrace();
+		}
 
 			System.out.println("House with ID "+e.getId()+" was generated.");
 		}
@@ -472,7 +506,7 @@ public class Main {
         /**
 	* Deletes an apartament from the database.
 	*/
-	public static void ardenpartament(int id) {
+	public static void deleteApartament(int id) {
 		Apartament e = Apartament.load(id);
 
 		if( e != null ){
@@ -481,7 +515,7 @@ public class Main {
 		}
 		else System.out.println("Unexistent Estate ID.");
 	}
-        
+
 	/**
         * Deletes a House from the database.
         */
@@ -497,7 +531,7 @@ else System.out.println("Unexistent Estate ID.");
 	/**
 	 * Creates a new tenancy contract after the user enters the appropriate data.
 	 */
-        
+
 	public static void newTenancyContract() {
 		TenancyContract c = new TenancyContract();
 
