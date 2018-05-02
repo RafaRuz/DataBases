@@ -44,15 +44,15 @@ public class Main {
 	public static void showMainMenu() {
 		//Menüoptionen
 		final int MENU_AGENT = 0;
-                final int SHOW_CONTRACTS = 1;
-                //final int MENU_ESTATE = 1;
-                //final int MENU_CONTRACT = 2;
-                final int LOGIN = 2;
-		final int QUIT = 3;
+                final int INSERT_PERSON = 1;
+                final int SHOW_CONTRACTS = 2;
+                final int LOGIN = 3;
+		final int QUIT = 4;
 
 		//Erzeuge Menü
 		Menu mainMenu = new Menu("Main Menu");
 		mainMenu.addEntry("Agent Administration", MENU_AGENT);
+                mainMenu.addEntry("Insert Person", INSERT_PERSON);
                 mainMenu.addEntry("Login", LOGIN);
                 mainMenu.addEntry("Show Contracts", SHOW_CONTRACTS);
                 //mainMenu.addEntry("Estate Administration", MENU_ESTATE);
@@ -65,19 +65,19 @@ public class Main {
 
 			switch(response) {
 				case MENU_AGENT:
-					showEstateAgentMenu();
-					break;
-                                //case MENU_ESTATE:
-				//	showEstateMenu();
-				//	break;
-                                //case MENU_CONTRACT:
-				//	showContractMenu();
-				//	break;
+                                    showEstateAgentMenu();
+                                    break;
+                                case SHOW_CONTRACTS:
+                                    showContracts();
+                                    break;
+                                case INSERT_PERSON:
+                                    insertPerson();
+                                    break;
                                 case LOGIN:
                                     if( login() )   showLoggedAgentMenu();
                                     break;
 				case QUIT:
-					return;
+                                    return;
 			}
 		}
 	}
@@ -481,10 +481,11 @@ public class Main {
 		}
 		else System.out.println("Unexistent Estate ID.");
 	}
+        
 	/**
-* Deletes a House from the database.
-*/
-public static void deleteHouse(int id) {
+        * Deletes a House from the database.
+        */
+        public static void deleteHouse(int id) {
 House e = House.load(id);
 
 if( e != null ){
@@ -496,6 +497,7 @@ else System.out.println("Unexistent Estate ID.");
 	/**
 	 * Creates a new tenancy contract after the user enters the appropriate data.
 	 */
+        
 	public static void newTenancyContract() {
 		TenancyContract c = new TenancyContract();
 
@@ -511,12 +513,12 @@ else System.out.println("Unexistent Estate ID.");
 
                 int ap_id = FormUtil.readInt("Apartment id");
 
-                /*Apartament ap = Apartament.load(ap_id);
+                Apartament ap = Apartament.load(ap_id);
 
                 if( ap == null ){
                     System.out.println("Invalid apartment id");
                     return;
-                }*/
+                }
 
 		c.setDate(FormUtil.readString("Date"));
 		c.setPlace(FormUtil.readString("Place"));
@@ -544,14 +546,14 @@ else System.out.println("Unexistent Estate ID.");
                     p.save();
                 }
 
-                int ap_id = FormUtil.readInt("Apartment id");
+                int ap_id = FormUtil.readInt("House id");
 
-                /*Apartament ap = Apartament.load(ap_id);
+                House ap = House.load(ap_id);
 
                 if( ap == null ){
                     System.out.println("Invalid apartment id");
                     return;
-                }*/
+                }
 
 		c.setDate(FormUtil.readString("Date"));
 		c.setPlace(FormUtil.readString("Place"));
@@ -565,7 +567,7 @@ else System.out.println("Unexistent Estate ID.");
 	/**
 	 * See all the contracts
 	 */
-	public static void seeContracts() {
+	public static void showContracts() {
 
 		// Get connected
 		Connection con = DB2ConnectionManager.getInstance().getConnection();

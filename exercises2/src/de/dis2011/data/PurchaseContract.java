@@ -76,27 +76,27 @@ public class PurchaseContract extends Contract{
 			Connection con = DB2ConnectionManager.getInstance().getConnection();
 
                        
-                        String selectSQL = "SELECT * FROM contract WHERE id = ?";
+                        String selectSQL = "SELECT * FROM contract WHERE contract_number = ?";
 			PreparedStatement pstmt = con.prepareStatement(selectSQL);
 			pstmt.setInt(1, contract_number);
 
 			// Führe Anfrage aus
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
-                            String selectSQL2 = "SELECT * FROM PurchaseContract WHERE id = ?";
+                            String selectSQL2 = "SELECT * FROM PurchaseContract WHERE contract_number = ?";
                             PreparedStatement pstmt2 = con.prepareStatement(selectSQL2);
                             pstmt2.setInt(1, contract_number);
 
                             // Führe Anfrage aus
                             ResultSet rs2 = pstmt2.executeQuery();
-                            if (rs.next()) {
+                            if (rs2.next()) {
 
                                     PurchaseContract c = new PurchaseContract();
                                     c.setContractNumber(contract_number);
                                     c.setDate(rs.getString("date"));
                                     c.setPlace(rs.getString("place"));
-                                    c.setInstallments(rs.getInt("installments"));
-                                    c.setInterest(rs.getInt("interest"));
+                                    c.setInstallments(rs2.getInt("installments"));
+                                    c.setInterest(rs2.getInt("interest"));
 
                                     rs.close();
                                     pstmt.close();
