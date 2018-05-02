@@ -101,6 +101,58 @@ public class TenancyContract extends Contract{
 			e.printStackTrace();
 		}
 	}
+        
+        
+        public static TenancyContract load(int contract_number) {
+		try {
+			// Hole Verbindung
+			Connection con = DB2ConnectionManager.getInstance().getConnection();
+
+                       
+                        String selectSQL = "SELECT * FROM contract WHERE id = ?";
+			PreparedStatement pstmt = con.prepareStatement(selectSQL);
+			pstmt.setInt(1, contract_number);
+
+			// Führe Anfrage aus
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+                            String selectSQL2 = "SELECT * FROM TenancyContract WHERE id = ?";
+                            PreparedStatement pstmt2 = con.prepareStatement(selectSQL2);
+                            pstmt2.setInt(1, contract_number);
+
+                            // Führe Anfrage aus
+                            ResultSet rs2 = pstmt2.executeQuery();
+                            if (rs.next()) {
+
+                                    TenancyContract c = new TenancyContract();
+                                    c.setContractNumber(contract_number);
+                                    c.setDate(rs.getString("date"));
+                                    c.setPlace(rs.getString("place"));
+                                    c.setStartDate(rs2.getString("start_date"));
+                                    c.setDuration(rs2.getInt("duration"));
+                                    c.setAdditionalCost(rs2.getInt("additional_cost"));
+
+                                    rs.close();
+                                    pstmt.close();
+                                    return c;
+                            }
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+        
+        public void print(){
+            System.out.println("Contract number: " + getContractNumber());
+            System.out.println("Date: " + getDate());
+            System.out.println("Place: " + getPlace());
+            System.out.println("Start Date: " + getStartDate());
+            System.out.println("Duration: " + getDuration());
+            System.out.println("Additional Cost: " + getAdditionalCost());
+            System.out.println();
+        }
 
 
 }

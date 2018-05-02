@@ -44,15 +44,17 @@ public class Main {
 	public static void showMainMenu() {
 		//Menüoptionen
 		final int MENU_AGENT = 0;
+                final int SHOW_CONTRACTS = 1;
                 //final int MENU_ESTATE = 1;
                 //final int MENU_CONTRACT = 2;
-                final int LOGIN = 1;
-		final int QUIT = 2;
+                final int LOGIN = 2;
+		final int QUIT = 3;
 
 		//Erzeuge Menü
 		Menu mainMenu = new Menu("Main Menu");
 		mainMenu.addEntry("Agent Administration", MENU_AGENT);
                 mainMenu.addEntry("Login", LOGIN);
+                mainMenu.addEntry("Show Contracts", SHOW_CONTRACTS);
                 //mainMenu.addEntry("Estate Administration", MENU_ESTATE);
                 //mainMenu.addEntry("Contract Management", MENU_CONTRACT);
 		mainMenu.addEntry("Terminate", QUIT);
@@ -399,7 +401,7 @@ System.out.println("House with ID "+Integer.toString(id)+" was deleted.");
 else System.out.println("Unexistent Estate ID.");
 }
 	/**
-	 * Creates a new contract after the user enters the appropriate data.
+	 * Creates a new tenancy contract after the user enters the appropriate data.
 	 */
 	public static void newTenancyContract() {
 		TenancyContract c = new TenancyContract();
@@ -416,12 +418,12 @@ else System.out.println("Unexistent Estate ID.");
 
                 int ap_id = FormUtil.readInt("Apartment id");
 
-                //Apartament ap = Apartament.load(ap_id);
+                /*Apartament ap = Apartament.load(ap_id);
 
-                if( p == null ){
+                if( ap == null ){
                     System.out.println("Invalid apartment id");
                     return;
-                }
+                }*/
 
 		c.setDate(FormUtil.readString("Date"));
 		c.setPlace(FormUtil.readString("Place"));
@@ -433,8 +435,30 @@ else System.out.println("Unexistent Estate ID.");
 		System.out.println("Contract with number "+c.getContractNumber()+" was generated.");
 	}
 
+        /**
+	 * Creates a new purchase contract after the user enters the appropriate data.
+	 */
         public static void newPurchaseContract() {
 		PurchaseContract c = new PurchaseContract();
+                
+                String p_first_name = FormUtil.readString("Buying person first name");
+                String p_name = FormUtil.readString("Buying person name");
+                String p_address = FormUtil.readString("Buying person address");
+                Person p = Person.load(p_first_name, p_name, p_address);
+
+                if( p == null ){
+                    p = new Person(p_first_name, p_name, p_address);
+                    p.save();
+                }
+
+                int ap_id = FormUtil.readInt("Apartment id");
+
+                /*Apartament ap = Apartament.load(ap_id);
+
+                if( ap == null ){
+                    System.out.println("Invalid apartment id");
+                    return;
+                }*/
 
 		c.setDate(FormUtil.readString("Date"));
 		c.setPlace(FormUtil.readString("Place"));
@@ -447,47 +471,57 @@ else System.out.println("Unexistent Estate ID.");
 
 	/**
 	 * See all the contracts
-	 *//*
+	 */
 	public static void seeContracts() {
 
 		// Get connected
 		Connection con = DB2ConnectionManager.getInstance().getConnection();
 
 		try {
-                        String selectSQL = "SELECT * FROM contract";
-                        PreparedStatement pstmt = con.prepareStatement(selectSQL);
+                        System.out.println("Tenancy Contracts");
+                        
+                        String selectSQL1 = "SELECT contract_number FROM TenancyContract";
+                        PreparedStatement pstmt1 = con.prepareStatement(selectSQL1);
 
-                        pstmt.setInt(1, id);
 
-                        ResultSet rs = pstmt.executeQuery();
-                        if (rs.next()) {
-                                        Estate e = Estate.load(id);
-
-                                        System.out.println("Enter the new data:");
-
-                                        e.setCity(FormUtil.readString("City"));
-                                        e.setPostalCode(FormUtil.readInt("Postal Code"));
-                                        e.setStreet(FormUtil.readString("Street"));
-                                        e.setStreetNumber(FormUtil.readInt("Street Number"));
-                                        e.setSquareArea(FormUtil.readInt("Square Area"));
-                                        e.save();
-
-                                        System.out.println("Estate with ID "+e.getId()+" was updated.");
+                        ResultSet rs1 = pstmt1.executeQuery();
+                        while(rs1.next()) {
+                                int c_number = rs1.getInt("contract_number");
+                                TenancyContract tc = TenancyContract.load(c_number);
+                                
+                                tc.print();
                         }
-                        else System.out.println("Invalid Estate ID.");
+                        
+                        System.out.println("Purchase Contracts");
+                        
+                        String selectSQL2 = "SELECT contract_number FROM PurchaseContract";
+                        PreparedStatement pstmt2 = con.prepareStatement(selectSQL2);
+
+
+                        ResultSet rs2 = pstmt2.executeQuery();
+                        while(rs2.next()) {
+                                int c_number = rs2.getInt("contract_number");
+                                PurchaseContract pc = PurchaseContract.load(c_number);
+                                
+                                pc.print();
+                        }
 
 		} catch (SQLException e) {
 						e.printStackTrace();
 		}
-	}*/
+	}
 
 	/**
 	 * Creates a new contract after the user enters the appropriate data.
 	 */
 	public static void insertPerson() {
-		Contract c = new Contract();
+		Person p = new Person();
 
-		System.out.println("Contract with number "+c.getContractNumber()+" was generated.");
+		p.setFirstName(FormUtil.readString("First name"));
+                p.setName(FormUtil.readString("Name"));
+                p.setAddress(FormUtil.readString("Address"));
+                
+                p.save();
 	}
 
         /**
