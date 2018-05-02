@@ -16,9 +16,9 @@ import de.dis2011.data.DB2ConnectionManager;
  *
  * Beispiel-Tabelle:
 f
- CREATE TABLE PurchaseContract(contract_number INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,
+ CREATE TABLE PurchaseContract(contract_number INTEGER NOT NULL PRIMARY KEY,
  installments INTEGER,
- interest INTEGER),
+ interest INTEGER,
  FOREIGN KEY(contract_number) REFERENCES Contract(contract_number)
  );
  */

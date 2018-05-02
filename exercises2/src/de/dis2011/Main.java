@@ -3,6 +3,10 @@
 import de.dis2011.data.EstateAgent;
 import de.dis2011.data.Estate;
 import de.dis2011.data.Contract;
+import de.dis2011.data.Apartament;
+import de.dis2011.data.House;
+
+
 import de.dis2011.data.DB2ConnectionManager;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -110,14 +114,16 @@ public class Main {
 	 */
 	public static void showEstateMenu() {
 		//Menüoptionen1
-		final int NEW_ESTATE = 0;
-		final int UPDATE_ESTATE = 1;
-    final int DELETE_ESTATE = 2;
-		final int BACK = 3;
+		final int NEW_APARTAMENT = 0;
+		final int NEW_HOUSE = 1;
+		final int UPDATE_ESTATE = 2;
+    final int DELETE_ESTATE = 3;
+		final int BACK = 4;
 
 		//agentverwaltungsmenü
 		Menu estateMenu = new Menu("Estate Administration");
-		estateMenu.addEntry("New Estate", NEW_ESTATE);
+		estateMenu.addEntry("New Apartament", NEW_APARTAMENT);
+		estateMenu.addEntry("New House", NEW_HOUSE);
 		estateMenu.addEntry("Update Estate", UPDATE_ESTATE);
 		estateMenu.addEntry("Delete Estate", DELETE_ESTATE);
 		estateMenu.addEntry("Back to Main Menu", BACK);
@@ -127,17 +133,20 @@ public class Main {
 			int response = estateMenu.show();
 
 			switch(response) {
-				case NEW_ESTATE:
-					newEstate();
+				case NEW_APARTAMENT:
+					newApartamentEstate();
 					break;
-			case UPDATE_ESTATE:
-				updateEstate();
-				break;
-			case DELETE_ESTATE:
-				deleteEstate(FormUtil.readInt("ID"));
-				break;
-				case BACK:
-					return;
+				case NEW_HOUSE:
+					newHouseEstate();
+					break;
+				case UPDATE_ESTATE:
+					updateEstate();
+					break;
+				case DELETE_ESTATE:
+					deleteEstate(FormUtil.readInt("ID"));
+					break;
+					case BACK:
+						return;
 			}
 		}
 	}
@@ -275,20 +284,51 @@ public class Main {
 
 
 	/**
-	 * Creates a new estate after the user enters the appropriate data.
+	 * Creates a new Apartament after the user enters the appropriate data.
 	 */
-	public static void newEstate() {
-		Estate e = new Estate();
+	public static void newApartamentEstate() {
+		Apartament e = new Apartament();
+
 
 		e.setCity(FormUtil.readString("City"));
 		e.setPostalCode(FormUtil.readInt("Postal Code"));
 		e.setStreet(FormUtil.readString("Street"));
 		e.setStreetNumber(FormUtil.readInt("Street Number"));
 		e.setSquareArea(FormUtil.readInt("Square Area"));
+		e.setFloor(FormUtil.readInt("Floor"));
+		e.setRent(FormUtil.readInt("Rent"));
+		e.setRooms(FormUtil.readInt("Rooms"));
+                boolean balcony = (FormUtil.readInt("Balcony") != 0);
+		e.setBalcony(balcony);
+                boolean kitchen = (FormUtil.readInt("Kitchen") != 0);
+                e.setKitchen(kitchen);
 		e.save();
 
-		System.out.println("Estate with ID "+e.getId()+" was generated.");
+		System.out.println("Apartament with ID "+e.getId()+" was generated.");
 	}
+
+
+
+		/**
+		 * Creates a new house after the user enters the appropriate data.
+		 */
+		public static void newHouseEstate() {
+			House e = new House();
+
+
+			e.setCity(FormUtil.readString("City"));
+			e.setPostalCode(FormUtil.readInt("Postal Code"));
+			e.setStreet(FormUtil.readString("Street"));
+			e.setStreetNumber(FormUtil.readInt("Street Number"));
+			e.setSquareArea(FormUtil.readInt("Square Area"));
+			e.setFloors(FormUtil.readInt("Floors"));
+			e.setPrice(FormUtil.readInt("Price"));
+		                boolean garden = (FormUtil.readInt("Gardeb") != 0);
+	                e.setGarden(garden);
+			e.save();
+
+			System.out.println("House with ID "+e.getId()+" was generated.");
+		}
 
 	/**
  * Updates a estate after the user enters the appropriate data.

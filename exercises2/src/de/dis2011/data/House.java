@@ -11,7 +11,7 @@ import de.dis2011.data.DB2ConnectionManager;
 /**
  * House-Bean ////////////////////////////HAY QUE HACERLA
  *
- CREATE TABLE House(id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,
+ CREATE TABLE House(id INTEGER NOT NULL PRIMARY KEY,
   	floors INTEGER,
 		price INTEGER,
   	garden SMALLINT,
@@ -41,12 +41,41 @@ public class House extends Estate {
 		this.price = price;
 	}
 
-	public boolean getGarden(){
-		return garden;
+	public int getGarden(){
+		return garden ? 1:0;
 	}
 
 	public void setGarden(boolean garden){
 		this.garden = garden;
+	}
+
+	/**
+	 Saves Apartament in the database. If no ID has yet been assigned,
+	 the enerated id is fetched from DB2 and passed to the model.
+	 */
+	public void save() {
+
+		super.save();
+		// Get connected
+		Connection con = DB2ConnectionManager.getInstance().getConnection();
+
+		try {
+				// If an ID already exists, make an update ...
+				String updateSQL = "INSERT INTO House(floors, price, garden, estateid) VALUES (?, ?, ?, ?)";
+				PreparedStatement pstmt = con.prepareStatement(updateSQL);
+
+				// Set request parameters
+				pstmt.setInt(1, getFloors());
+				pstmt.setInt(2, getPrice());
+				pstmt.setInt(3, getGarden());
+				pstmt.setInt(4, super.getId());
+				pstmt.executeUpdate();
+
+				pstmt.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 

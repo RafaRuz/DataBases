@@ -16,9 +16,10 @@ import de.dis2011.data.DB2ConnectionManager;
  *
  * Beispiel-Tabelle:
 
- CREATE TABLE TenancyContract(contract_number INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,
- contract_start_date date,
- place varchar(255),
+ CREATE TABLE TenancyContract(contract_number INTEGER NOT NULL PRIMARY KEY,
+ start_date varchar(255),
+ duration INTEGER,
+ additional_cost INTEGER,
  FOREIGN KEY(contract_number) REFERENCES Contract(contract_number)
  );
  */

@@ -112,7 +112,7 @@ public class Estate {
 
 				ts.setId(id);
 				ts.setCity(rs.getString("City"));
-			//	ts.setPostalCode(rs.getInt("Postal Code"));
+				// ts.setPostalCode(rs.getInt("Postal Code"));
 				ts.setStreet(rs.getString("Street"));
 			//	ts.setStreetNumber(rs.getInt("Street Number"));
 			//	ts.setSquareArea(rs.getInt("Square Area"));
@@ -185,28 +185,28 @@ public class Estate {
 	 Delete Estate in the database.
 	 */
 	public void delete() {
-		// Get connected
 		Connection con = DB2ConnectionManager.getInstance().getConnection();
+	try {
+		String selectSQL = "SELECT * FROM estate WHERE estateid = ?";
+		PreparedStatement pstmt = con.prepareStatement(selectSQL);
 
-		try {
-			// Check if the Estate already exists
-			if (getId() == -1) {
+		pstmt.setInt(1, getId());
 
-				System.out.println("This estate is not in the database.");
+		ResultSet rs = pstmt.executeQuery();
+		if (rs.next()) {
+			// If an ID already exists, delete it
+			String deleteSQL = "DELETE FROM estate WHERE estateid = ?";
+			PreparedStatement pstmt2 = con.prepareStatement(deleteSQL);
+			pstmt2.executeUpdate();
+
+			pstmt2.close();
+
 			} else {
-				// If an ID already exists, delete it
-				String deleteSQL = "DELETE FROM estate WHERE estateid = ?";
-				PreparedStatement pstmt = con.prepareStatement(deleteSQL);
-
-
-				// Set request parameters
-
-				pstmt.setInt(1, getId());
-				pstmt.executeUpdate();
-
-				pstmt.close();
+				System.out.println("This estate is not in the database.");
 			}
-		} catch (SQLException e) {
+			pstmt.close();
+
+        }catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
