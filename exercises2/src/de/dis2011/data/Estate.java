@@ -164,7 +164,7 @@ public class Estate {
 				pstmt.setString(3, getStreet());
 				pstmt.setInt(4, getStreetNumber());
 				pstmt.setInt(5, getSquareArea());
-                                pstmt.setString(6, getManager());
+        pstmt.setString(6, getManager());
 
 				pstmt.executeUpdate();
 
@@ -187,7 +187,7 @@ public class Estate {
 				pstmt.setString(3, getStreet());
 				pstmt.setInt(4, getStreetNumber());
 				pstmt.setInt(5, getSquareArea());
-                                pstmt.setString(6, getStreet());
+        pstmt.setString(6, getStreet());
 				pstmt.setInt(7, getId());
 				pstmt.executeUpdate();
 
