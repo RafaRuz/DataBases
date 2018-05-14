@@ -47,116 +47,113 @@ CREATE TABLE Rents(
 
  */
 public class Contract {
-	private int contract_number = -1;
-	private String date;
-	private String place;
+    private int id = -1;
+    private Date date;
+    private String place;
 
 
-	public int getContractNumber() {
-		return contract_number;
-	}
+    public int getId() {
+            return id;
+    }
 
-	public void setContractNumber(int contract_number) {
-		this.contract_number = contract_number;
-	}
+    public void setId(int contract_number) {
+            this.id = contract_number;
+    }
 
-	public String getDate(){
-		return date;
-	}
-	public void setDate(String date){
-		this.date = date;
-	}
+    public Date getDate(){
+            return date;
+    }
+    
+    public void setDate(Date date){
+            this.date = date;
+    }
 
-	public String getPlace() {
-		return place;
-	}
+    public String getPlace() {
+            return place;
+    }
 
-	public void setPlace(String place) {
-		this.place = place;
-	}
+    public void setPlace(String place) {
+            this.place = place;
+    }
 
-	/**
-	 Saves Contract in the database. If no ID has yet been assigned,
-	 the enerated id is fetched from DB2 and passed to the model.
-	 */
-	public void save() {
-		// Get connected
-		Connection con = DB2ConnectionManager.getInstance().getConnection();
+    /**
+     Saves Contract in the database. If no ID has yet been assigned,
+     the enerated id is fetched from DB2 and passed to the model.
+     */
+    public void save() {
+        // Get connected
+        Connection con = DB2ConnectionManager.getInstance().getConnection();
 
-		try {
-			// Add a new element if the object does not already have an ID.
-			//if (getContractNumber() == -1) {
-				//Attention, here a parameter is given, so that later generated IDs are returned!
-				String insertSQL = "INSERT INTO Contract(date, place) VALUES (?, ?)";
+        try {
+            // Add a new element if the object does not already have an ID.
+            if ( getId() == -1 ){
+                //Attention, here a parameter is given, so that later generated IDs are returned!
+                String insertSQL = "INSERT INTO Contract(date, place) VALUES (?, ?)";
 
-				PreparedStatement pstmt = con.prepareStatement(insertSQL,
-						Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement pstmt = con.prepareStatement(insertSQL,
+                                Statement.RETURN_GENERATED_KEYS);
 
-				// Set request parameters and execute request
-				pstmt.setString(1, getDate());
-				pstmt.setString(2, getPlace());
-				pstmt.executeUpdate();
+                // Set request parameters and execute request
+                pstmt.setDate(1, new java.sql.Date(getDate().getTime()));
+                pstmt.setString(2, getPlace());
+                pstmt.executeUpdate();
 
-				// Get the id of the tight set
-				ResultSet rs = pstmt.getGeneratedKeys();
-				if (rs.next()) {
-					setContractNumber(rs.getInt(1));
-				}
+                // Get the id of the tight set
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                        setId(rs.getInt(1));
+                }
 
-				rs.close();
-				pstmt.close();
-			/*} else {
-				// If an ID already exists, make an update ...
-				String updateSQL = "UPDATE Contract SET contract_date = ?, place = ? WHERE contract_number = ?";
-				PreparedStatement pstmt = con.prepareStatement(updateSQL);
+                rs.close();
+                pstmt.close();
+            } else {
+                // If an ID already exists, make an update ...
+                String updateSQL = "UPDATE Contract SET date = ?, place = ? WHERE id = ?";
+                PreparedStatement pstmt = con.prepareStatement(updateSQL);
 
-				// Set request parameters
-				pstmt.setString(1, getDate());
-				pstmt.setString(2, getPlace());
-				pstmt.setInt(3, getContractNumber());
-				pstmt.executeUpdate();
+                // Set request parameters
+                pstmt.setDate(1, new java.sql.Date(getDate().getTime()));
+                pstmt.setString(2, getPlace());
+                pstmt.setInt(3, getId());
+                pstmt.executeUpdate();
 
-				pstmt.close();
-			}*/
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+                pstmt.close();
+            }
+        } catch (SQLException e) {
+                e.printStackTrace();
+        }
+    }
 
+    public static Contract load(int id) {
+        // Hole Verbindung
+        Connection con = DB2ConnectionManager.getInstance().getConnection();
+        
+        try {
+                // Erzeuge Anfrage
+                String selectSQL = "SELECT * FROM contract WHERE id = ?";
+                PreparedStatement pstmt = con.prepareStatement(selectSQL);
+                pstmt.setInt(1, id);
 
+                // Führe Anfrage aus
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
 
-	public static Contract load(int contract_number) {
-		try {
-			// Hole Verbindung
-			Connection con = DB2ConnectionManager.getInstance().getConnection();
+                        Contract c = new Contract();
+                        c.setId(id);
+                        c.setDate(rs.getDate("date"));
+                        c.setPlace(rs.getString("place"));
 
-			// Erzeuge Anfrage
-			String selectSQL = "SELECT * FROM contract WHERE id = ?";
-			PreparedStatement pstmt = con.prepareStatement(selectSQL);
-			pstmt.setInt(1, contract_number);
+                        rs.close();
+                        pstmt.close();
+                        return c;
+                }
+        } catch (SQLException e) {
+                e.printStackTrace();
+        }
+        return null;
+    }
 
-			// Führe Anfrage aus
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next()) {
-
-				Contract c = new Contract();
-				c.setContractNumber(contract_number);
-				c.setDate(rs.getString("date"));
-				c.setPlace(rs.getString("place"));
-
-				rs.close();
-				pstmt.close();
-				return c;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-        public void print(){
-
-        };
-
-
+    public void print(){
+        
+    };
 }
