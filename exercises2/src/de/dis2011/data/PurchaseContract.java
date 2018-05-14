@@ -15,12 +15,19 @@ import de.dis2011.data.DB2ConnectionManager;
  * PurchaseContract-Be
  *
  * Beispiel-Tabelle:
-f
- CREATE TABLE PurchaseContract(contract_number INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,
- installments INTEGER,
- interest INTEGER),
- FOREIGN KEY(contract_number) REFERENCES Contract(contract_number)
- );
+
+CREATE TABLE PURCHASECONTRACT(
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,
+    installments INTEGER,
+    interest INTEGER,
+    person_id INTEGER NOT NULL,
+   	house_id INTEGER UNIQUE NOT NULL,
+    FOREIGN KEY(id) REFERENCES Contract(id) ON DELETE CASCADE,
+    FOREIGN KEY(person_id) REFERENCES Person(id) ON DELETE CASCADE,
+    FOREIGN KEY(house_id) REFERENCES House(id) ON DELETE CASCADE
+);
+
+
  */
 public class PurchaseContract extends Contract{
 	private int installments;

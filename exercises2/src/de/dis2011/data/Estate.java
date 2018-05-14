@@ -12,21 +12,25 @@ import de.dis2011.data.DB2ConnectionManager;
  * Estate-Bean
  *
  * Beispiel-Tabelle:
- CREATE TABLE Estate(Estateid INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,
- city varchar(255),
- postal_code INTEGER,
- street varchar(255),
- street_number INTEGER,
-  square_area INTEGER	);
+
+CREATE TABLE ESTATE(
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,
+    city VARCHAR(255),
+    postal_code INTEGER,
+    street VARCHAR(255),
+    street_number INTEGER,
+    square_area INTEGER,
+    manager VARCHAR(40) NOT NULL,
+    FOREIGN KEY(manager) REFERENCES EstateAgent(login) ON DELETE CASCADE
+);
 
 
-	CREATE TABLE Management(
-id_agent INTEGER,
-id_estate INTEGER UNIQUE NOT NULL,
-PRIMARY KEY(id_estate),
-FOREIGN KEY(id_agent) REFERENCES EstateAgent(id),
-FOREIGN KEY(id_estate) REFERENCES Estate(id),
-
+CREATE TABLE Management(
+    id_agent INTEGER,
+    id_estate INTEGER UNIQUE NOT NULL,
+    PRIMARY KEY(id_estate),
+    FOREIGN KEY(id_agent) REFERENCES EstateAgent(id),
+    FOREIGN KEY(id_estate) REFERENCES Estate(id),
 );
 
 

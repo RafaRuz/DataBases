@@ -16,11 +16,18 @@ import de.dis2011.data.DB2ConnectionManager;
  *
  * Beispiel-Tabelle:
 
- CREATE TABLE TenancyContract(contract_number INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,
- contract_start_date date,
- place varchar(255),
- FOREIGN KEY(contract_number) REFERENCES Contract(contract_number)
- );
+CREATE TABLE TENANCYCONTRACT(
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,
+    start_date DATE,
+    duration INTEGER,
+    additional_costs INTEGER,
+    person_id INTEGER NOT NULL,
+    apartment_id INTEGER UNIQUE NOT NULL,
+    FOREIGN KEY(id) REFERENCES Contract(id) ON DELETE CASCADE,
+    FOREIGN KEY(person_id) REFERENCES Person(id) ON DELETE CASCADE,
+    FOREIGN KEY(apartment_id) REFERENCES Apartment(id) ON DELETE CASCADE
+);
+ 
  */
 public class TenancyContract extends Contract{
 	private String start_date;

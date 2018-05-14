@@ -11,12 +11,16 @@ import de.dis2011.data.DB2ConnectionManager;
 /**
  * House-Bean ////////////////////////////HAY QUE HACERLA
  *
- CREATE TABLE House(id INTEGER NOT NULL PRIMARY KEY,
-  	floors INTEGER,
-		price INTEGER,
-  	garden SMALLINT,
-	FOREIGN KEY(id) REFERENCES Estate(id)
-	);
+
+CREATE TABLE HOUSE(
+    id INTEGER NOT NULL PRIMARY KEY,
+    floors INTEGER,
+    price INTEGER,
+    garden SMALLINT,
+    FOREIGN KEY(id) REFERENCES Estate(id) ON DELETE CASCADE
+);
+
+
  */
 public class House extends Estate {
 	private int floors;

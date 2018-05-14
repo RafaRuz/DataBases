@@ -12,12 +12,17 @@ import de.dis2011.data.DB2ConnectionManager;
  * Person-Bean
  *
  Beispiel-Tabelle:
- CREATE TABLE Person(id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE),
- first_name varchar(255),
- name varchar(255),
-  address varchar(255)),
+ 
+CREATE TABLE PERSON(
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,
+    first_name VARCHAR(255),
+    name VARCHAR(255),
+    address VARCHAR(255)
+);
 
-  PRIMARY KEY (id,first_name, name, address);
+
+ 
+ 
  */
 public class Person {
         private int id;

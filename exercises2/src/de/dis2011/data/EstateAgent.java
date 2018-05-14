@@ -12,11 +12,15 @@ import de.dis2011.data.DB2ConnectionManager;
  * EstateAgent-Bean
  *
  * Beispiel-Tabelle:
-  CREATE TABLE EstateAgent(id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,
-	name varchar(255),
-  address varchar(255),
-  login varchar(40)  NOT NULL UNIQUE,
-  password varchar(40));
+ 
+CREATE TABLE ESTATEAGENT(
+    /*id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,*\/
+    name VARCHAR(255),
+    address VARCHAR(255),
+    login VARCHAR(40)  NOT NULL UNIQUE PRIMARY KEY,
+    password VARCHAR(40)
+);
+
  */
 
 public class EstateAgent {

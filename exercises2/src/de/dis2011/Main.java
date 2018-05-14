@@ -3,7 +3,7 @@
 import de.dis2011.data.EstateAgent;
 import de.dis2011.data.Estate;
 import de.dis2011.data.Contract;
-import de.dis2011.data.Apartament;
+import de.dis2011.data.Apartment;
 import de.dis2011.data.House;
 import de.dis2011.data.TenancyContract;
 import de.dis2011.data.PurchaseContract;
@@ -299,10 +299,10 @@ public class Main {
 
 
 	/**
-	 * Creates a new Apartament after the user enters the appropriate data.
+	 * Creates a new Apartment after the user enters the appropriate data.
 	 */
 	public static void newApartamentEstate() {
-		Apartament e = new Apartament();
+		Apartment e = new Apartment();
 
 
 		e.setCity(FormUtil.readString("City"));
@@ -380,7 +380,7 @@ public class Main {
 		}
 
 	/**
-        * Updates a Apartament after the user enters the appropriate data.
+        * Updates a Apartment after the user enters the appropriate data.
         */
 	public static void updateApartament() {
 						int id = FormUtil.readInt("Enter the ID from the Apartament to modify");
@@ -396,7 +396,7 @@ public class Main {
 
 										ResultSet rs = pstmt.executeQuery();
 										if (rs.next()) {
-												Apartament e = Apartament.load(id);
+												Apartment e = Apartment.load(id);
 
 
 
@@ -508,7 +508,7 @@ public class Main {
 	* Deletes an apartament from the database.
 	*/
 	public static void deleteApartament(int id) {
-		Apartament e = Apartament.load(id);
+		Apartment e = Apartment.load(id);
 
 		if( e != null ){
 			e.delete();
@@ -548,7 +548,7 @@ else System.out.println("Unexistent Estate ID.");
 
                 int ap_id = FormUtil.readInt("Apartment id");
 
-                Apartament ap = Apartament.load(ap_id);
+                Apartment ap = Apartment.load(ap_id);
 
                 if( ap == null ){
                     System.out.println("Invalid apartment id");

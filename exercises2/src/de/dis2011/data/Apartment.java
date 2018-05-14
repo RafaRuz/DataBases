@@ -9,19 +9,20 @@ import java.sql.Statement;
 import de.dis2011.data.DB2ConnectionManager;
 
 /**
- * Apartament-Bean ////////////////////////////HAY QUE HACERLA
+ * Apartment-Bean ////////////////////////////HAY QUE HACERLA
 
- CREATE TABLE Apartament(estateid INTEGER NOT NULL PRIMARY KEY,
-  	floor INTEGER,
-		rent INTEGER,
-  	rooms INTEGER,
-  	balcony SMALLINT,
-	kitchen SMALLINT,
-	FOREIGN KEY(estateid) REFERENCES Estate(estateid) ON UPDATE CASCADE
-	);
+CREATE TABLE APARTMENT(
+    id INTEGER NOT NULL PRIMARY KEY,
+    floor INTEGER,
+    rent INTEGER,
+    rooms INTEGER,
+    balcony SMALLINT,
+    kitchen SMALLINT,
+    FOREIGN KEY(id) REFERENCES Estate(id) ON DELETE CASCADE
+);
 
  */
-public class Apartament extends Estate {
+public class Apartment extends Estate {
 	private int floor;
 	private int rent;
 	private int rooms;
@@ -81,7 +82,7 @@ public class Apartament extends Estate {
 	 * @param id ID des zu ladenden Estate
 	 * @return Estate-Instanz
 	 */
-	public static Apartament load(int id) {
+	public static Apartment load(int id) {
 		try {
 			// Hole Verbindung
 			Connection con = DB2ConnectionManager.getInstance().getConnection();
@@ -95,7 +96,7 @@ public class Apartament extends Estate {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 
-				Apartament ts = new Apartament();
+				Apartment ts = new Apartment();
 
 				ts.setId(id);
 				ts.setFloor(rs.getInt("Floor"));
@@ -130,7 +131,7 @@ public class Apartament extends Estate {
 		return null;
 	}
 	/**
-	 Saves Apartament in the database. If no ID has yet been assigned,
+	 Saves Apartment in the database. If no ID has yet been assigned,
 	 the enerated id is fetched from DB2 and passed to the model.
 	 */
 	public void save() {
@@ -160,7 +161,7 @@ public class Apartament extends Estate {
 	}
 
 	/**
-	 Delete Apartament in the database.
+	 Delete Apartment in the database.
 */
 	public void delete() {
 		// Get connected

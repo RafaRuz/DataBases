@@ -15,33 +15,36 @@ import de.dis2011.data.DB2ConnectionManager;
  * Contract-Bean
  *
 
-  CREATE TABLE Contract(contract_number INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY ,
-  date varchar(255),
-  place varchar(255));
+CREATE TABLE CONTRACT(
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY ,
+    date DATE,
+    place VARCHAR(255)
+);
 
 
-	CREATE TABLE Sells(
-		 	id_person INTEGER,
-		 	id_house INTEGER UNIQUE NOT NULL,
-		 	purchase_contract_number INTEGER NOT NULL,
-			PRIMARY KEY(purchase_contract_number),
-			FOREIGN KEY(id_person) REFERENCES Person(id),
-			FOREIGN KEY(id_house) REFERENCES House(id),
-			FOREIGN KEY(purchase_contract_number) REFERENCES PURCHASECONTRACT(contract_number)
-			);
+CREATE TABLE Sells(
+    id_person INTEGER,
+    id_house INTEGER UNIQUE NOT NULL,
+    purchase_contract_number INTEGER NOT NULL,
+    PRIMARY KEY(purchase_contract_number),
+    FOREIGN KEY(id_person) REFERENCES Person(id),
+    FOREIGN KEY(id_house) REFERENCES House(id),
+    FOREIGN KEY(purchase_contract_number) REFERENCES PURCHASECONTRACT(contract_number)
+);
 
 
 
 
-		CREATE TABLE Rents(
- 	id_person INTEGER,
- 	id_apartment INTEGER UNIQUE NOT NULL,
- 	tenancy_contract_number INTEGER NOT NULL,
-	PRIMARY KEY(tenancy_contract_number),
-	FOREIGN KEY(id_person) REFERENCES Person(id),
-	FOREIGN KEY(id_apartment) REFERENCES House(id),
-	FOREIGN KEY(tenancy_contract_number) REFERENCES TENANCYCONTRACT(contract_number)
-	);
+CREATE TABLE Rents(
+    id_person INTEGER,
+    id_apartment INTEGER UNIQUE NOT NULL,
+    tenancy_contract_number INTEGER NOT NULL,
+    PRIMARY KEY(tenancy_contract_number),
+    FOREIGN KEY(id_person) REFERENCES Person(id),
+    FOREIGN KEY(id_apartment) REFERENCES House(id),
+    FOREIGN KEY(tenancy_contract_number) REFERENCES TENANCYCONTRACT(contract_number)
+);
+
  */
 public class Contract {
 	private int contract_number = -1;
