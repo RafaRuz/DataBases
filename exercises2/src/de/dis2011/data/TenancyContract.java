@@ -21,11 +21,7 @@ CREATE TABLE TENANCYCONTRACT(
     start_date DATE,
     duration INTEGER,
     additional_costs INTEGER,
-    person_id INTEGER NOT NULL,
-    apartment_id INTEGER UNIQUE NOT NULL,
-    FOREIGN KEY(id) REFERENCES Contract(id) ON DELETE CASCADE,
-    FOREIGN KEY(person_id) REFERENCES Person(id) ON DELETE CASCADE,
-    FOREIGN KEY(apartment_id) REFERENCES Apartment(id) ON DELETE CASCADE
+    FOREIGN KEY(id) REFERENCES Contract(id) ON DELETE CASCADE
 );
  
  */
