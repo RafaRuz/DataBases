@@ -107,13 +107,7 @@ public class EstateAgent {
 		Connection con = DB2ConnectionManager.getInstance().getConnection();
 
 		try {
-							String selectSQL = "SELECT * FROM estateagent WHERE login = ?";
-							PreparedStatement pstmt1 = con.prepareStatement(selectSQL);
-
-							pstmt1.setString(1, login);
-
-							ResultSet rs = pstmt1.executeQuery();
-							if (rs.next()) {								
+							if (load(getLogin())== null) {
 
 						//Attention, here a parameter is given, so that later
 						// generated IDs are returned!
@@ -153,7 +147,6 @@ public class EstateAgent {
 
 						pstmt.close();
 					}
-                                                        						pstmt1.close();
 
 				} catch (SQLException e) {
 					e.printStackTrace();

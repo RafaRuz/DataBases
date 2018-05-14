@@ -42,7 +42,7 @@ public class Estate {
 	private String street;
 	private int street_number;
 	private int square_area;
-        private String manager;
+  private String manager;
 
 
 	public int getId() {
@@ -92,7 +92,7 @@ public class Estate {
 		public void setSquareArea(int square_area) {
 		this.square_area = square_area;
 	}
-                
+
         public String getManager() {
         return manager;
 	}
