@@ -88,7 +88,7 @@ public class Apartment extends Estate {
 			Connection con = DB2ConnectionManager.getInstance().getConnection();
 
 			// Erzeuge Anfrage
-			String selectSQL = "SELECT * FROM apartament WHERE estateid = ?";
+			String selectSQL = "SELECT * FROM apartment WHERE id = ?";
 			PreparedStatement pstmt = con.prepareStatement(selectSQL);
 			pstmt.setInt(1, id);
 
@@ -104,7 +104,7 @@ public class Apartment extends Estate {
 				ts.setRooms(rs.getInt("Rooms"));
 				ts.setBalcony(rs.getInt("Balcony"));
 				ts.setKitchen(rs.getInt("Kitchen"));
-				String selectSQL1 = "SELECT * FROM estate WHERE estateid = ?";
+				String selectSQL1 = "SELECT * FROM estate WHERE id = ?";
 				PreparedStatement pstmt1 = con.prepareStatement(selectSQL1);
 				pstmt1.setInt(1, id);
 
@@ -141,7 +141,7 @@ public class Apartment extends Estate {
 		Connection con = DB2ConnectionManager.getInstance().getConnection();
 
 		try {
-				String updateSQL = "INSERT INTO apartament(floor, rent, rooms, balcony, kitchen,estateid) VALUES (?, ?, ?, ?, ?, ? )";
+				String updateSQL = "INSERT INTO apartment(floor, rent, rooms, balcony, kitchen,id) VALUES (?, ?, ?, ?, ?, ? )";
 				PreparedStatement pstmt = con.prepareStatement(updateSQL);
 
 				// Set request parameters
@@ -171,10 +171,10 @@ public class Apartment extends Estate {
 			// Check if the Estate already exists
 			if (getId() == -1) {
 
-				System.out.println("This apartament is not in the database.");
+				System.out.println("This apartment is not in the database.");
 			} else {
 				// If an ID already exists, delete it
-				String deleteSQL = "DELETE FROM apartament WHERE estateid = ?";
+				String deleteSQL = "DELETE FROM apartment WHERE id = ?";
 				PreparedStatement pstmt = con.prepareStatement(deleteSQL);
 
 
