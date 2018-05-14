@@ -245,27 +245,27 @@ public class Main {
 		m.setPassword(FormUtil.readString("Passwort"));
 		m.save();
 
-		System.out.println("Agent with ID "+m.getId()+" was generated.");
+		System.out.println("Agent with Login "+m.getLogin()+" was generated.");
 	}
 
     /**
 	 * Updates a new agent after the user enters the appropriate data.
 	 */
 	public static void updateEstateAgent() {
-            int id = FormUtil.readInt("Enter the ID from the Agent to modify");
+            String login = FormUtil.readString("Enter the Login from the Agent to modify");
 
             // Get connected
             Connection con = DB2ConnectionManager.getInstance().getConnection();
 
             try {
-                    String selectSQL = "SELECT * FROM estateagent WHERE id = ?";
+                    String selectSQL = "SELECT * FROM estateagent WHERE login = ?";
                     PreparedStatement pstmt = con.prepareStatement(selectSQL);
 
-                    pstmt.setInt(1, id);
+                    pstmt.setString(1, login);
 
                     ResultSet rs = pstmt.executeQuery();
                     if (rs.next()) {
-                        EstateAgent m = EstateAgent.load(id);
+                        EstateAgent m = EstateAgent.load(login);
 
                         System.out.println("Enter the new data:");
 
@@ -275,9 +275,9 @@ public class Main {
                         m.setPassword(FormUtil.readString("Passwort"));
                         m.save();
 
-                        System.out.println("Agent with ID "+m.getId()+" was updated.");
+                        System.out.println("Agent with Login "+m.getLogin()+" was updated.");
                     }
-                    else System.out.println("Invalid Agent ID.");
+                    else System.out.println("Invalid Agent Login.");
 
             } catch (SQLException e) {
                     e.printStackTrace();
@@ -287,14 +287,14 @@ public class Main {
 	/**
 	 * Deletes an agent from the database.
 	 */
-	public static void deleteEstateAgent(int id) {
-		EstateAgent m = EstateAgent.load(id);
+	public static void deleteEstateAgent(String login) {
+		EstateAgent m = EstateAgent.load(login);
 
 		if( m != null ){
                     m.delete();
-                    System.out.println("Agent with ID "+Integer.toString(id)+" was deleted.");
+                    System.out.println("Agent with Login "+login+" was deleted.");
                 }
-                else System.out.println("Unexistent Agent ID.");
+                else System.out.println("Unexistent Agent Login.");
 	}
 
 
@@ -317,24 +317,10 @@ public class Main {
 		e.setBalcony(balcony);
                 boolean kitchen = (FormUtil.readInt("Kitchen") != 0);
                 e.setKitchen(kitchen);
+                e.setManager(actualEstateAgent.getLogin());
 		e.save();
 
-		try {
-                    Connection con = DB2ConnectionManager.getInstance().getConnection();
-
-                    String insertSQL = "INSERT INTO Management(id_agent,id_estate) VALUES (?,?)";
-
-                    PreparedStatement pstmt = con.prepareStatement(insertSQL);
-
-                    // Set request parameters and execute request
-                    pstmt.setInt(1, actualEstateAgent.getId());
-                    pstmt.setInt(2, e.getId());
-                    pstmt.executeUpdate();
-
-                    pstmt.close();
-                } catch (SQLException y) {
-                    y.printStackTrace();
-  }
+		
 
 		System.out.println("Apartament with ID "+e.getId()+" was generated.");
 	}
@@ -357,25 +343,8 @@ public class Main {
 			e.setPrice(FormUtil.readInt("Price"));
 		                boolean garden = (FormUtil.readInt("Garden") != 0);
 	                e.setGarden(garden);
+                        e.setManager(actualEstateAgent.getLogin());
 			e.save();
-
-			try {
-											Connection con = DB2ConnectionManager.getInstance().getConnection();
-
-											String insertSQL = "INSERT INTO Management(id_agent,id_estate) VALUES (?,?)";
-
-											PreparedStatement pstmt = con.prepareStatement(insertSQL);
-
-											// Set request parameters and execute request
-											pstmt.setInt(1, actualEstateAgent.getId());
-											pstmt.setInt(2, e.getId());
-											pstmt.executeUpdate();
-
-											pstmt.close();
-									} catch (SQLException y) {
-											y.printStackTrace();
-		}
-
 			System.out.println("House with ID "+e.getId()+" was generated.");
 		}
 
@@ -717,7 +686,6 @@ else System.out.println("Unexistent Estate ID.");
 
                                 if( password.equals(rs.getString("password")) ){
                                     EstateAgent ts = new EstateAgent();
-                                    ts.setId(rs.getInt("id"));
                                     ts.setName(rs.getString("name"));
                                     ts.setAddress(rs.getString("address"));
                                     ts.setLogin(rs.getString("login"));

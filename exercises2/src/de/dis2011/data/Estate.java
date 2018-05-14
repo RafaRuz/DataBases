@@ -42,6 +42,7 @@ public class Estate {
 	private String street;
 	private int street_number;
 	private int square_area;
+        private String manager;
 
 
 	public int getId() {
@@ -91,6 +92,14 @@ public class Estate {
 		public void setSquareArea(int square_area) {
 		this.square_area = square_area;
 	}
+                
+        public String getManager() {
+        return manager;
+	}
+
+	public void setManager(String manager) {
+		this.manager = manager;
+	}
 
 	/**
 	 * Lädt einen Estate aus der Datenbank
@@ -119,6 +128,8 @@ public class Estate {
 				ts.setStreet(rs.getString("Street"));
 				ts.setStreetNumber(rs.getInt("Street_Number"));
 				ts.setSquareArea(rs.getInt("Square_Area"));
+                                ts.setManager(rs.getString("Manager"));
+
 
 				rs.close();
 				pstmt.close();
@@ -142,7 +153,7 @@ public class Estate {
 			// Add a new element if the object does not already have an ID.
 			if (getId() == -1) {
 				//Attention, here a parameter is given, so that later generated IDs are returned!
-				String insertSQL = "INSERT INTO Estate(city, postal_code, street, street_number, square_area) VALUES (?, ?, ?, ?, ?)";
+				String insertSQL = "INSERT INTO Estate(city, postal_code, street, street_number, square_area, manager) VALUES (?, ?, ?, ?, ?, ?)";
 
 				PreparedStatement pstmt = con.prepareStatement(insertSQL,
 						Statement.RETURN_GENERATED_KEYS);
@@ -153,6 +164,8 @@ public class Estate {
 				pstmt.setString(3, getStreet());
 				pstmt.setInt(4, getStreetNumber());
 				pstmt.setInt(5, getSquareArea());
+                                pstmt.setString(6, getManager());
+
 				pstmt.executeUpdate();
 
 				// Get the id of the tight set
@@ -165,7 +178,7 @@ public class Estate {
 				pstmt.close();
 			} else {
 				// If an ID already exists, make an update ...
-				String updateSQL = "UPDATE Estate SET city = ?, postal_code = ?, street = ?, street_number = ?, square_area = ? WHERE estateid = ?";
+				String updateSQL = "UPDATE Estate SET city = ?, postal_code = ?, street = ?, street_number = ?, square_area = ?, manager = ? WHERE estateid = ?";
 				PreparedStatement pstmt = con.prepareStatement(updateSQL);
 
 				// Set request parameters
@@ -174,7 +187,8 @@ public class Estate {
 				pstmt.setString(3, getStreet());
 				pstmt.setInt(4, getStreetNumber());
 				pstmt.setInt(5, getSquareArea());
-				pstmt.setInt(6, getId());
+                                pstmt.setString(6, getStreet());
+				pstmt.setInt(7, getId());
 				pstmt.executeUpdate();
 
 				pstmt.close();

@@ -12,7 +12,7 @@ import de.dis2011.data.DB2ConnectionManager;
  * EstateAgent-Bean
  *
  * Beispiel-Tabelle:
- 
+
 CREATE TABLE ESTATEAGENT(
     /*id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1, NO CACHE) PRIMARY KEY,*\/
     name VARCHAR(255),
@@ -24,19 +24,12 @@ CREATE TABLE ESTATEAGENT(
  */
 
 public class EstateAgent {
-	private int id = -1;
+
 	private String name;
 	private String address;
-	private String login;
+	private String login = "#";
 	private String password;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -72,25 +65,24 @@ public class EstateAgent {
 
 	/**
 	 * Lädt einen EstateAgent aus der Datenbank
-	 * @param id ID des zu ladenden EstateAgents
+	 * @param login login des zu ladenden EstateAgents
 	 * @return EstateAgent-Instanz
 	 */
-	public static EstateAgent load(int id) {
+	public static EstateAgent load(String login) {
 		try {
 			// Hole Verbindung
 			Connection con = DB2ConnectionManager.getInstance().getConnection();
 
 			// Erzeuge Anfrage
-			String selectSQL = "SELECT * FROM estateagent WHERE id = ?";
+			String selectSQL = "SELECT * FROM estateagent WHERE login = ?";
 			PreparedStatement pstmt = con.prepareStatement(selectSQL);
-			pstmt.setInt(1, id);
+			pstmt.setString(1, login);
 
 			// Führe Anfrage aus
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 
 				EstateAgent ts = new EstateAgent();
-				ts.setId(id);
 				ts.setName(rs.getString("name"));
 				ts.setAddress(rs.getString("address"));
 				ts.setLogin(rs.getString("login"));
@@ -115,49 +107,57 @@ public class EstateAgent {
 		Connection con = DB2ConnectionManager.getInstance().getConnection();
 
 		try {
-			// Add a new element if the object does not already have an ID.
-			if (getId() == -1) {
-				//Attention, here a parameter is given, so that later
-				// generated IDs are returned!
+							String selectSQL = "SELECT * FROM estateagent WHERE login = ?";
+							PreparedStatement pstmt1 = con.prepareStatement(selectSQL);
 
-				String insertSQL = "INSERT INTO estateagent(name, address, login, password) VALUES (?, ?, ?, ?)";
+							pstmt1.setString(1, login);
 
-				PreparedStatement pstmt = con.prepareStatement(insertSQL,
-						Statement.RETURN_GENERATED_KEYS);
+							ResultSet rs = pstmt1.executeQuery();
+							if (rs.next()) {								
 
-						// Set request parameters and execute request
-				pstmt.setString(1, getName());
-				pstmt.setString(2, getAddress());
-				pstmt.setString(3, getLogin());
-				pstmt.setString(4, getPassword());
-				pstmt.executeUpdate();
+						//Attention, here a parameter is given, so that later
+						// generated IDs are returned!
+		                                 System.out.println("JAJA");
+						String insertSQL = "INSERT INTO estateagent(name, address, login, password) VALUES (?, ?, ?, ?)";
 
-				// Get the id of the tight set
-				ResultSet rs = pstmt.getGeneratedKeys();
-				if (rs.next()) {
-					setId(rs.getInt(1));
+						PreparedStatement pstmt = con.prepareStatement(insertSQL,
+								Statement.RETURN_GENERATED_KEYS);
+
+								// Set request parameters and execute request
+						pstmt.setString(1, getName());
+						pstmt.setString(2, getAddress());
+						pstmt.setString(3, getLogin());
+						pstmt.setString(4, getPassword());
+						pstmt.executeUpdate();
+
+						/*// Get the id of the tight set
+						ResultSet rs = pstmt.getGeneratedKeys();
+						if (rs.next()) {
+							setId(rs.getInt(1));
+						}
+
+						rs.close();*/
+						pstmt.close();
+					} else {
+		                                                             System.out.println("JAJasdasdasA");
+						// If an ID already exists, make an update ...
+						String updateSQL = "UPDATE estateagent SET name = ?, address = ?, password = ? WHERE login = ?";
+						PreparedStatement pstmt = con.prepareStatement(updateSQL);
+
+						// Set request parameters
+						pstmt.setString(1, getName());
+						pstmt.setString(2, getAddress());
+						pstmt.setString(3, getPassword());
+						pstmt.setString(4, getLogin());
+						pstmt.executeUpdate();
+
+						pstmt.close();
+					}
+                                                        						pstmt1.close();
+
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-
-				rs.close();
-				pstmt.close();
-			} else {
-				// If an ID already exists, make an update ...
-				String updateSQL = "UPDATE estateagent SET name = ?, address = ?, login = ?, password = ? WHERE id = ?";
-				PreparedStatement pstmt = con.prepareStatement(updateSQL);
-
-				// Set request parameters
-				pstmt.setString(1, getName());
-				pstmt.setString(2, getAddress());
-				pstmt.setString(3, getLogin());
-				pstmt.setString(4, getPassword());
-				pstmt.setInt(5, getId());
-				pstmt.executeUpdate();
-
-				pstmt.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 	/**
 	 Delete EstateAgent in the database.
@@ -168,18 +168,18 @@ public class EstateAgent {
 
 		try {
 			// Check if the Agent already exists
-			if (getId() == -1) {
+			if (getLogin() == "") {
 
 				System.out.println("This agent is not in the database.");
 			} else {
 				// If an ID already exists, delete it
-				String deleteSQL = "DELETE FROM estateagent WHERE id = ?";
+				String deleteSQL = "DELETE FROM estateagent WHERE login = ?";
 				PreparedStatement pstmt = con.prepareStatement(deleteSQL);
 
 
 				// Set request parameters
 
-				pstmt.setInt(1, getId());
+				pstmt.setString(1, getLogin());
 				pstmt.executeUpdate();
 
 				pstmt.close();
@@ -188,5 +188,5 @@ public class EstateAgent {
 			e.printStackTrace();
 		}
 	}
-        
+
 }
