@@ -559,7 +559,7 @@ else System.out.println("Unexistent Estate ID.");
 		c.setPlace(FormUtil.readString("Place"));
                 c.setStartDate(FormUtil.readString("Start Date"));
                 c.setDuration(FormUtil.readInt("Duration"));
-                c.setAdditionalCost(FormUtil.readInt("Additional Cost"));
+                c.setAdditionalCosts(FormUtil.readInt("Additional Cost"));
                 
                 Connection con = DB2ConnectionManager.getInstance().getConnection();
                 
@@ -571,7 +571,7 @@ else System.out.println("Unexistent Estate ID.");
                     // Set request parameters and execute request
                     pstmt.setInt(1, p.getId());
                     pstmt.setInt(2,ap_id);
-                    pstmt.setInt(3, c.getContractNumber());
+                    pstmt.setInt(3, c.getId());
                     pstmt.executeUpdate();
 
                     pstmt.close();
@@ -581,7 +581,7 @@ else System.out.println("Unexistent Estate ID.");
                     System.out.println("The apartment already has a contract.");
 		}
 
-		System.out.println("Contract with number "+c.getContractNumber()+" was generated.");
+		System.out.println("Contract with number "+c.getId()+" was generated.");
 	}
 
         /**
@@ -623,7 +623,7 @@ else System.out.println("Unexistent Estate ID.");
                     // Set request parameters and execute request
                     pstmt.setInt(1, p.getId());
                     pstmt.setInt(2,ap_id);
-                    pstmt.setInt(3, c.getContractNumber());
+                    pstmt.setInt(3, c.getId());
                     pstmt.executeUpdate();
 
                     pstmt.close();
@@ -633,7 +633,7 @@ else System.out.println("Unexistent Estate ID.");
                     System.out.println("The house already has a contract.");
 		}
 
-		System.out.println("Contract with number "+c.getContractNumber()+" was generated.");
+		System.out.println("Contract with number "+c.getId()+" was generated.");
 	}
 
 	/**
