@@ -25,10 +25,10 @@ import java.util.logging.Logger;
 
 
 
-        
-        
-        
-        
+
+
+
+
 /**
  * Hauptklasse
  */
@@ -135,7 +135,7 @@ public class Main {
 
 		//agentverwaltungsmenü
 		Menu estateMenu = new Menu("Estate Administration");
-		estateMenu.addEntry("New Apartament", NEW_APARTAMENT);
+		estateMenu.addEntry("New Apartment", NEW_APARTAMENT);
 		estateMenu.addEntry("New House", NEW_HOUSE);
 		estateMenu.addEntry("Update Apartment", UPDATE_APARTAMENT);
 		estateMenu.addEntry("Update House", UPDATE_HOUSE);
@@ -149,19 +149,19 @@ public class Main {
 
 			switch(response) {
 				case NEW_APARTAMENT:
-					newApartamentEstate();
+					newApartmentEstate();
 					break;
 				case NEW_HOUSE:
 					newHouseEstate();
 					break;
 				case UPDATE_APARTAMENT:
-					updateApartament();
+					updateApartment();
 					break;
 				case UPDATE_HOUSE:
 					updateHouse();
 					break;
 				case DELETE_APARTAMENT:
-					deleteApartament(FormUtil.readInt("ID"));
+					deleteApartment(FormUtil.readInt("ID"));
 					break;
 				case DELETE_HOUSE:
 					deleteHouse(FormUtil.readInt("ID"));
@@ -306,7 +306,7 @@ public class Main {
 	/**
 	 * Creates a new Apartment after the user enters the appropriate data.
 	 */
-	public static void newApartamentEstate() {
+	public static void newApartmentEstate() {
 		Apartment e = new Apartment();
 
 
@@ -325,9 +325,9 @@ public class Main {
                 e.setManager(actualEstateAgent.getLogin());
 		e.save();
 
-		
 
-		System.out.println("Apartament with ID "+e.getId()+" was generated.");
+
+		System.out.println("Apartment with ID "+e.getId()+" was generated.");
 	}
 
 
@@ -356,14 +356,14 @@ public class Main {
 	/**
         * Updates a Apartment after the user enters the appropriate data.
         */
-	public static void updateApartament() {
-						int id = FormUtil.readInt("Enter the ID from the Apartament to modify");
+	public static void updateApartment() {
+						int id = FormUtil.readInt("Enter the ID from the Apartment to modify");
 
 						// Get connected
 						Connection con = DB2ConnectionManager.getInstance().getConnection();
 
 						try {
-										String selectSQL = "SELECT * FROM apartament WHERE estateid = ?";
+										String selectSQL = "SELECT * FROM apartment WHERE estateid = ?";
 										PreparedStatement pstmt = con.prepareStatement(selectSQL);
 
 										pstmt.setInt(1, id);
@@ -390,7 +390,7 @@ public class Main {
 
 
 
-												String updateSQL = "UPDATE Apartament SET floor = ?, rent = ?, rooms = ?, balcony = ?, kitchen = ? WHERE estateid = ?";
+												String updateSQL = "UPDATE Apartment SET floor = ?, rent = ?, rooms = ?, balcony = ?, kitchen = ? WHERE estateid = ?";
 												PreparedStatement pstmt1 = con.prepareStatement(updateSQL);
 
 												pstmt1.setInt(1, FormUtil.readInt("Floor"));
@@ -479,14 +479,14 @@ public class Main {
 		}
 
         /**
-	* Deletes an apartament from the database.
+	* Deletes an apartment from the database.
 	*/
-	public static void deleteApartament(int id) {
+	public static void deleteApartment(int id) {
 		Apartment e = Apartment.load(id);
 
 		if( e != null ){
 			e.delete();
-			System.out.println("Apartament with ID "+Integer.toString(id)+" was deleted.");
+			System.out.println("Apartment with ID "+Integer.toString(id)+" was deleted.");
 		}
 		else System.out.println("Unexistent Estate ID.");
 	}
@@ -528,15 +528,15 @@ else System.out.println("Unexistent Estate ID.");
                     System.out.println("Invalid apartment id");
                     return;
                 }
-                
+
                 c.setDate(FormUtil.readDate("Date"));
-		c.setPlace(FormUtil.readString("Place"));
+								c.setPlace(FormUtil.readString("Place"));
                 c.setStartDate(FormUtil.readDate("Start Date"));
                 c.setDuration(FormUtil.readInt("Duration"));
                 c.setAdditionalCosts(FormUtil.readInt("Additional Cost"));
-                
+
                 Connection con = DB2ConnectionManager.getInstance().getConnection();
-                
+
                 try {
                     String insertSQL = "INSERT INTO Rents(id_person,id_apartment,tenancy_contract_number) VALUES (?,?,?)";
 
@@ -562,7 +562,7 @@ else System.out.println("Unexistent Estate ID.");
 	 * Creates a new purchase contract after the user enters the appropriate data.
 	 */
         public static void newPurchaseContract() {
-		PurchaseContract c = new PurchaseContract();
+								PurchaseContract c = new PurchaseContract();
 
                 String p_first_name = FormUtil.readString("Buying person first name");
                 String p_name = FormUtil.readString("Buying person name");
@@ -583,13 +583,13 @@ else System.out.println("Unexistent Estate ID.");
                     return;
                 }
 
-		c.setDate(FormUtil.readDate("Date"));
-		c.setPlace(FormUtil.readString("Place"));
+								c.setDate(FormUtil.readDate("Date"));
+								c.setPlace(FormUtil.readString("Place"));
                 c.setInstallments(FormUtil.readInt("Installments"));
                 c.setInterest(FormUtil.readInt("Interest Rate"));
-                
+
                 Connection con = DB2ConnectionManager.getInstance().getConnection();
-                
+
                 try {String insertSQL = "INSERT INTO Sells(id_person,id_house,purchase_contract_number) VALUES (?,?,?)";
 
                     PreparedStatement pstmt = con.prepareStatement(insertSQL);

@@ -54,20 +54,22 @@ public class Contract {
     private int id = -1;
     private Date date;
     private String place;
+    private int person_id;
+    private int estate_id;
 
 
     public int getId() {
             return id;
     }
 
-    public void setId(int contract_number) {
-            this.id = contract_number;
+    public void setId(int id) {
+            this.id = id;
     }
 
     public Date getDate(){
             return date;
     }
-    
+
     public void setDate(Date date){
             this.date = date;
     }
@@ -78,6 +80,22 @@ public class Contract {
 
     public void setPlace(String place) {
             this.place = place;
+    }
+
+    public int getPersonId() {
+            return id;
+    }
+
+    public void setPersonId(int person_id) {
+            this.person_id = person_id;
+    }
+
+    public int getEstateId() {
+              return id;
+    }
+
+    public void setEstateId(int estate_id) {
+            this.estate_id = estate_id;
     }
 
     /**
@@ -92,7 +110,7 @@ public class Contract {
             // Add a new element if the object does not already have an ID.
             if ( getId() == -1 ){
                 //Attention, here a parameter is given, so that later generated IDs are returned!
-                String insertSQL = "INSERT INTO Contract(date, place) VALUES (?, ?)";
+                String insertSQL = "INSERT INTO Contract(date, place, person_id, estate_id) VALUES (?, ?, ?, ?)";
 
                 PreparedStatement pstmt = con.prepareStatement(insertSQL,
                                 Statement.RETURN_GENERATED_KEYS);
@@ -100,6 +118,8 @@ public class Contract {
                 // Set request parameters and execute request
                 pstmt.setDate(1, new java.sql.Date(getDate().getTime()));
                 pstmt.setString(2, getPlace());
+                pstmt.setInt(3, getPersonId());
+                pstmt.setInt(4, getEstateId());
                 pstmt.executeUpdate();
 
                 // Get the id of the tight set
@@ -112,13 +132,15 @@ public class Contract {
                 pstmt.close();
             } else {
                 // If an ID already exists, make an update ...
-                String updateSQL = "UPDATE Contract SET date = ?, place = ? WHERE id = ?";
+                String updateSQL = "UPDATE Contract SET date = ?, place = ?, person_id = ?, estate_id = ? WHERE id = ?";
                 PreparedStatement pstmt = con.prepareStatement(updateSQL);
 
                 // Set request parameters
                 pstmt.setDate(1, new java.sql.Date(getDate().getTime()));
                 pstmt.setString(2, getPlace());
-                pstmt.setInt(3, getId());
+                pstmt.setInt(3, getPersonId());
+                pstmt.setInt(4, getEstateId());
+                pstmt.setInt(5, getId());
                 pstmt.executeUpdate();
 
                 pstmt.close();
@@ -131,7 +153,7 @@ public class Contract {
     public static Contract load(int id) {
         // Hole Verbindung
         Connection con = DB2ConnectionManager.getInstance().getConnection();
-        
+
         try {
                 // Erzeuge Anfrage
                 String selectSQL = "SELECT * FROM contract WHERE id = ?";
@@ -146,7 +168,8 @@ public class Contract {
                         c.setId(id);
                         c.setDate(rs.getDate("date"));
                         c.setPlace(rs.getString("place"));
-
+                        c.setPersonId(rs.getInt("person_id"));
+                        c.setEstateId(rs.getInt("estate_id"));
                         rs.close();
                         pstmt.close();
                         return c;
@@ -158,6 +181,6 @@ public class Contract {
     }
 
     public void print(){
-        
+
     };
 }

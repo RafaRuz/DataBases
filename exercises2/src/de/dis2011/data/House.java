@@ -62,7 +62,7 @@ public class House extends Estate {
 			Connection con = DB2ConnectionManager.getInstance().getConnection();
 
 			// Erzeuge Anfrage
-			String selectSQL = "SELECT * FROM House WHERE estateid = ?";
+			String selectSQL = "SELECT * FROM House WHERE id = ?";
 			PreparedStatement pstmt = con.prepareStatement(selectSQL);
 			pstmt.setInt(1, id);
 
@@ -77,7 +77,7 @@ public class House extends Estate {
 				ts.setPrice(rs.getInt("Price"));
 				ts.setGarden(rs.getInt("Garden"));
 
-				String selectSQL1 = "SELECT * FROM estate WHERE estateid = ?";
+				String selectSQL1 = "SELECT * FROM estate WHERE id = ?";
 				PreparedStatement pstmt1 = con.prepareStatement(selectSQL1);
 				pstmt1.setInt(1, id);
 
@@ -115,7 +115,7 @@ public class House extends Estate {
 
 		try {
 				// If an ID already exists, make an update ...
-				String updateSQL = "INSERT INTO House(floors, price, garden, estateid) VALUES (?, ?, ?, ?)";
+				String updateSQL = "INSERT INTO House(floors, price, garden, id) VALUES (?, ?, ?, ?)";
 				PreparedStatement pstmt = con.prepareStatement(updateSQL);
 
 				// Set request parameters
@@ -147,7 +147,7 @@ public class House extends Estate {
 					System.out.println("This house is not in the database.");
 				} else {
 					// If an ID already exists, delete it
-					String deleteSQL = "DELETE FROM house WHERE estateid = ?";
+					String deleteSQL = "DELETE FROM house WHERE id = ?";
 					PreparedStatement pstmt = con.prepareStatement(deleteSQL);
 
 
