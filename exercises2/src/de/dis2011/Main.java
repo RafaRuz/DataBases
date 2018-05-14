@@ -24,6 +24,11 @@ import java.util.logging.Logger;
 
 
 
+
+        
+        
+        
+        
 /**
  * Hauptklasse
  */
@@ -524,9 +529,9 @@ else System.out.println("Unexistent Estate ID.");
                     return;
                 }
                 
-                c.setDate(FormUtil.readString("Date"));
+                c.setDate(FormUtil.readDate("Date"));
 		c.setPlace(FormUtil.readString("Place"));
-                c.setStartDate(FormUtil.readString("Start Date"));
+                c.setStartDate(FormUtil.readDate("Start Date"));
                 c.setDuration(FormUtil.readInt("Duration"));
                 c.setAdditionalCosts(FormUtil.readInt("Additional Cost"));
                 
@@ -578,7 +583,7 @@ else System.out.println("Unexistent Estate ID.");
                     return;
                 }
 
-		c.setDate(FormUtil.readString("Date"));
+		c.setDate(FormUtil.readDate("Date"));
 		c.setPlace(FormUtil.readString("Place"));
                 c.setInstallments(FormUtil.readInt("Installments"));
                 c.setInterest(FormUtil.readInt("Interest Rate"));
