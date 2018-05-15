@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="de.dis2013.data.Vertrag" table="contract" abstract="true">
+		<id name="id" column="id">
+			<generator class="native" />
+		</id>
+		<property name="vertragsnummer" type="integer" column="id" />
+		<property name="datum" type="date" column="date" />
+		<property name="ort" type="string" column="place" />
+        <many-to-one name="vertragspartner" class="de.dis2013.data.Person" column="person_id" not-null="true" unique="true" />
+
+
+        <joined-subclass name="de.dis2013.data.Kaufvertrag" table="purchasecontract">
+            <key column="id"/>
+            <property name="anzahlRaten" type="integer" column="installments" />
+            <property name="ratenzins" type="integer" column="interest" />
+            <many-to-one name="haus" class="de.dis2013.data.Kaufvertrag" column="house_id" not-null="true" unique="true" />
+        </joined-subclass>
+
+        <joined-subclass name="de.dis2013.data.Mietvertrag" table="tenancycontract">
+            <key column="id"/>
+            <property name="mietbeginn" type="date" column="start_date" />
+            <property name="dauer" type="integer" column="duration" />
+            <property name="nebenkosten" type="integer" column="additional_costs" />
+            <many-to-one name="wohnung" class="de.dis2013.data.Wohnung" column="apartment_id" not-null="true" unique="true" />
+        </joined-subclass>
+	</class>
+</hibernate-mapping>

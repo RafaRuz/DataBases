@@ -99,6 +99,9 @@ public class MaklerEditor {
 				m.setLogin(new_login);
 			if(!new_password.equals(""))
 				m.setPasswort(new_password);
+			
+			if( !new_name.equals("") || !new_address.equals("") || !new_login.equals("") || !new_password.equals("") )
+				service.updateMakler(m);	
 		}
 	}
 	
