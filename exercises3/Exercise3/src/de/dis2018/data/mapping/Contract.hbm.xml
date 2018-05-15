@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="de.dis2018.data.Contract" table="contract" abstract="true">
+		<id name="id" column="id">
+			<generator class="increment" />
+		</id>
+		<property name="contractNo" type="integer" column="contractNumber" />
+		<property name="date" type="date" column="date" />
+		<property name="place" type="string" column="place" />
+        <many-to-one name="contractPartner" class="de.dis2018.data.Person" column="contractPartner" not-null="true" />
+
+
+        <joined-subclass name="de.dis2018.data.PurchaseContract" table="purchasecontract">
+            <key column="id"/>
+            <property name="noOfInstallments" type="integer" column="NoOfinstallments" />
+            <property name="IntrestRate" type="integer" column="intrestRate" />
+            <many-to-one name="house" class="de.dis2013.data.House" column="house_id" not-null="true" unique="true" />
+        </joined-subclass>
+
+        <joined-subclass name="de.dis2018.data.TenancyContract" table="tenancycontract">
+            <key column="id"/>
+            <property name="startDate" type="date" column="startDate" />
+            <property name="duration" type="integer" column="duration" />
+            <property name="additionaCosts" type="integer" column="additionalCosts" />
+            <many-to-one name="apartment" class="de.dis2018.data.Apartment" column="apartment_id" not-null="true" unique="true" />
+        </joined-subclass>
+	</class>
+</hibernate-mapping>
