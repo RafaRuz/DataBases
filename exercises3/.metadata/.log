@@ -141,3 +141,223 @@ Binding(ALT+CTRL+U,
 
 !ENTRY org.eclipse.jface.text 2 0 2018-05-15 18:00:30.346
 !MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'
+!SESSION 2018-05-15 18:22:48.745 -----------------------------------------------
+eclipse.buildId=4.7.3.M20180330-0640
+java.version=1.8.0_171
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.ui 1 1 2018-05-15 18:23:07.005
+!MESSAGE Workbench migration started
+
+!ENTRY org.eclipse.ui 1 1 2018-05-15 18:23:08.593
+!MESSAGE Workbench migration finished
+
+!ENTRY org.eclipse.jdt.core 2 0 2018-05-15 18:23:21.638
+!MESSAGE The Java indexing could not index Aufgabe3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJCustomizer.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+!STACK 0
+org.eclipse.jdt.internal.compiler.classfmt.ClassFormatException
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:447)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+Caused in Aufgabe3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJCustomizer.class by: java.lang.ArrayIndexOutOfBoundsException: 6656
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.getConstantClassNameAt(ClassFileReader.java:560)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:285)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+
+!ENTRY org.eclipse.jdt.core 2 0 2018-05-15 18:23:21.644
+!MESSAGE The Java indexing could not index Aufgabe3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJEntryInfo.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+!STACK 0
+org.eclipse.jdt.internal.compiler.classfmt.ClassFormatException
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:447)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+Caused in Aufgabe3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJEntryInfo.class by: java.lang.ArrayIndexOutOfBoundsException: 27674
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.getConstantClassNameAt(ClassFileReader.java:560)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:285)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+
+!ENTRY org.eclipse.jdt.core 2 0 2018-05-15 18:23:21.645
+!MESSAGE The Java indexing could not index Aufgabe3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJProfile.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+!STACK 0
+org.eclipse.jdt.internal.compiler.classfmt.ClassFormatException
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:447)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+Caused in Aufgabe3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJProfile.class by: java.lang.ArrayIndexOutOfBoundsException: 2048
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.getConstantClassNameAt(ClassFileReader.java:560)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:285)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+
+!ENTRY org.eclipse.jdt.core 2 0 2018-05-15 18:24:44.371
+!MESSAGE The Java indexing could not index Exercise3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJCustomizer.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+!STACK 0
+org.eclipse.jdt.internal.compiler.classfmt.ClassFormatException
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:447)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+Caused in Exercise3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJCustomizer.class by: java.lang.ArrayIndexOutOfBoundsException: 6656
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.getConstantClassNameAt(ClassFileReader.java:560)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:285)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+
+!ENTRY org.eclipse.jdt.core 2 0 2018-05-15 18:24:44.372
+!MESSAGE The Java indexing could not index Exercise3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJEntryInfo.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+!STACK 0
+org.eclipse.jdt.internal.compiler.classfmt.ClassFormatException
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:447)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+Caused in Exercise3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJEntryInfo.class by: java.lang.ArrayIndexOutOfBoundsException: 27674
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.getConstantClassNameAt(ClassFileReader.java:560)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:285)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+
+!ENTRY org.eclipse.jdt.core 2 0 2018-05-15 18:24:44.373
+!MESSAGE The Java indexing could not index Exercise3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJProfile.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+!STACK 0
+org.eclipse.jdt.internal.compiler.classfmt.ClassFormatException
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:447)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+Caused in Exercise3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJProfile.class by: java.lang.ArrayIndexOutOfBoundsException: 2048
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.getConstantClassNameAt(ClassFileReader.java:560)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:285)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+
+!ENTRY org.eclipse.jdt.core 2 0 2018-05-15 18:24:45.487
+!MESSAGE The Java indexing could not index Exercise3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJCustomizer.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+!STACK 0
+org.eclipse.jdt.internal.compiler.classfmt.ClassFormatException
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:447)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+Caused in Exercise3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJCustomizer.class by: java.lang.ArrayIndexOutOfBoundsException: 6656
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.getConstantClassNameAt(ClassFileReader.java:560)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:285)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+
+!ENTRY org.eclipse.jdt.core 2 0 2018-05-15 18:24:45.488
+!MESSAGE The Java indexing could not index Exercise3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJEntryInfo.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+!STACK 0
+org.eclipse.jdt.internal.compiler.classfmt.ClassFormatException
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:447)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+Caused in Exercise3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJEntryInfo.class by: java.lang.ArrayIndexOutOfBoundsException: 27674
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.getConstantClassNameAt(ClassFileReader.java:560)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:285)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+
+!ENTRY org.eclipse.jdt.core 2 0 2018-05-15 18:24:45.489
+!MESSAGE The Java indexing could not index Exercise3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJProfile.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+!STACK 0
+org.eclipse.jdt.internal.compiler.classfmt.ClassFormatException
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:447)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)
+Caused in Exercise3/lib/db2jcc.jar|COM/ibm/db2os390/sqlj/custom/DB2SQLJProfile.class by: java.lang.ArrayIndexOutOfBoundsException: 2048
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.getConstantClassNameAt(ClassFileReader.java:560)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:285)
+	at org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader.<init>(ClassFileReader.java:179)
+	at org.eclipse.jdt.internal.core.search.indexing.BinaryIndexer.indexDocument(BinaryIndexer.java:647)
+	at org.eclipse.jdt.internal.core.search.JavaSearchParticipant.indexDocument(JavaSearchParticipant.java:78)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.indexDocument(IndexManager.java:543)
+	at org.eclipse.jdt.internal.core.search.indexing.AddJarFileToIndex.execute(AddJarFileToIndex.java:230)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:396)
+	at java.lang.Thread.run(Thread.java:748)

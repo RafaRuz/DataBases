@@ -482,7 +482,7 @@ public class EstateService {
 		//session.getTransaction().commit();
 		
 		// Create Hibernate Session
-		session = sessionFactory.openSession();
+		//session = sessionFactory.openSession();
 		session.beginTransaction();
 		EstateAgent m2 = (EstateAgent)session.get(EstateAgent.class, m.getId());
 		Set<Estate> immos = m2.getEstates();
@@ -493,7 +493,7 @@ public class EstateService {
 			System.out.println("Estate: "+i.getCity());
 		}
 		session.getTransaction().commit();
-		session.close();
+		//session.close();
 		
 		Apartment w = new Apartment();
 		w.setCity("Hamburg");
