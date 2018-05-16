@@ -109,16 +109,24 @@ public class EstateService {
 	 * @param ea The estate agent
 	 */
 	public void addEstateAgent(EstateAgent ea) {
-		Session session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
-		try {
-			Integer did = (Integer)session.save(ea);
-			ea.setId(did);
-			session.getTransaction().commit();
-		} catch( Exception e ) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
+		Session session = null;
+		if( this.getEstateAgentByLogin(ea.getLogin()) == null ) {
+			try {
+				session = sessionFactory.getCurrentSession();
+				session.beginTransaction();
+				Integer did = (Integer)session.save(ea);
+				ea.setId(did);
+			} catch( Exception e ) {
+				e.printStackTrace();
+				session.getTransaction().rollback();
+			}
+			try {
+				session.getTransaction().commit();
+			} catch( Exception e ) {
+				e.printStackTrace();
+			}
 		}
+		else System.out.println("Login already used.");
 	}
 	
 	/**
@@ -126,15 +134,19 @@ public class EstateService {
 	 * @param m The EstateAgent
 	 */
 	public void updateEstateAgent(EstateAgent ea) {
-		Session session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
-		try {
-			session.update(ea);
-			session.getTransaction().commit();
-		} catch( Exception e ) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
+		Session session = null;
+		if( this.getEstateAgentByLogin(ea.getLogin()) == null ) {
+			try {
+				session = sessionFactory.getCurrentSession();
+				session.beginTransaction();
+				session.update(ea);
+				session.getTransaction().commit();
+			} catch( Exception e ) {
+				session.getTransaction().rollback();
+				e.printStackTrace();
+			}
 		}
+		else System.out.println("Login already used.");
 	}
 	
 	/**
@@ -142,15 +154,34 @@ public class EstateService {
 	 * @param ea The estate agent
 	 */
 	public void deleteEstateAgent(EstateAgent ea) {
-		Session session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
-		try {
-			session.delete(ea);
-			session.getTransaction().commit();
-		} catch( Exception e ) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
+		Set<PurchaseContract> l_pc = this.getAllPurchaseContractsForEstateAgent(ea);
+		Set<TenancyContract> l_tc = this.getAllTenancyContractsForEstateAgent(ea);
+		Iterator it_pc = l_pc.iterator();
+		Iterator it_tc = l_tc.iterator();
+		Set<Estate> contract_estates = new HashSet<Estate>();
+		
+		while(it_pc.hasNext()) {
+			contract_estates.add(((PurchaseContract)it_pc.next()).getHouse());
 		}
+		
+		while(it_tc.hasNext()) {
+			contract_estates.add(((TenancyContract)it_tc.next()).getApartment());
+		}
+		
+		if( contract_estates.isEmpty() ) {
+			Session session = sessionFactory.getCurrentSession();
+			session.beginTransaction();
+			try {
+				session.delete(ea);
+				session.getTransaction().commit();
+			} catch( Exception e ) {
+				session.getTransaction().rollback();
+				e.printStackTrace();
+			}
+		}
+		else System.out.println("Estate agent cannot be deleted because there are some contracts attached to him.");
+		
+		
 	}
 	
 	/**
@@ -225,6 +256,7 @@ public class EstateService {
 		session.beginTransaction();
 		try {
 			session.save(h);
+			session.persist(h);
 			session.getTransaction().commit();
 		} catch( Exception e ) {
 			session.getTransaction().rollback();
@@ -238,6 +270,20 @@ public class EstateService {
 	 * @return All houses managed by the estate agent
 	 */
 	public Set<House> getAllHousesForEstateAgent(EstateAgent ea) {
+		/*
+		Set<Estate> s = ea.getEstates();
+		Iterator it = s.iterator();
+		
+		Set<House> ret = new HashSet<House>();
+		while( it.hasNext() ) {
+			House h = (House)it.next();
+			if( h.getClass() == House.class ) {
+				ret.add(h);
+			}
+		}
+		
+		return ret;
+		*/
 		Session session = sessionFactory.getCurrentSession();
 		session.beginTransaction();
 		List<House> l = session.createQuery("from House h where h.id in (select e.id from Estate e where e.manager = :manager ) ").setEntity("manager",ea).list();
@@ -652,7 +698,6 @@ public class EstateService {
 		System.out.println("a");
 		System.out.println(h.getId());
 		System.out.println("");
-		h.setId(1);
 		
 		
 		//session.save(h);
@@ -664,7 +709,6 @@ public class EstateService {
 		System.out.println(h.getId());
 		System.out.println("");
 		
-		session.refresh(h);
 		// Create Hibernate Session
 		//session = sessionFactory.openSession();
 		/*

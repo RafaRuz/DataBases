@@ -17,7 +17,7 @@
             <key column="id"/>
             <property name="noOfInstallments" type="integer" column="NoOfinstallments" />
             <property name="IntrestRate" type="integer" column="intrestRate" />
-            <many-to-one name="house" class="de.dis2018.data.House" column="house" not-null="true" unique="true" />
+            <many-to-one name="house" class="de.dis2018.data.House" column="house" not-null="true" unique="true" cascade="save-update" />
         </joined-subclass>
 
         <joined-subclass name="de.dis2018.data.TenancyContract" table="tenancycontract">
@@ -25,7 +25,7 @@
             <property name="startDate" type="date" column="startDate" />
             <property name="duration" type="integer" column="duration" />
             <property name="additionalCosts" type="integer" column="additionalCosts" />
-            <many-to-one name="apartment" class="de.dis2018.data.Apartment" column="apartment" not-null="true" unique="true" cascade="all" />
+            <many-to-one name="apartment" class="de.dis2018.data.Apartment" column="apartment" not-null="true" unique="true" cascade="save-update" />
         </joined-subclass>
 	</class>
 </hibernate-mapping>

@@ -2,29 +2,30 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="isRegEx"/>
-		<item value="getHouseById" key="selection"/>
+		<item value="persist" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="gethousebyid"/>
-			<item value="getallhouses"/>
-			<item value="newtena"/>
-			<item value="new"/>
-			<item value="add"/>
-			<item value="newte"/>
-			<item value="tenancycont"/>
+			<item value="persist"/>
+			<item value="addtest"/>
+			<item value="addHous"/>
+			<item value="addhous"/>
 			<item value="addhouse"/>
-			<item value="addpurchase"/>
-			<item value="getestates"/>
-			<item value="createquery"/>
-			<item value="setroom"/>
-			<item value="setRoom"/>
-			<item value="addapart"/>
-			<item value="apartm"/>
+			<item value="getall"/>
+			<item value="deletehouse"/>
+			<item value="purx"/>
+			<item value="newho"/>
+			<item value="addHouse"/>
+			<item value="addte"/>
+			<item value="purxase"/>
+			<item value="addt"/>
+			<item value="add"/>
+			<item value="addpur"/>
 		</list>
 		<list key="replacehistory">
+			<item value="//"/>
 			<item value=".\ \=\ session.merge(.)session\.delete\(rekt\)"/>
 			<item value="session\.delete\(rekt\)"/>
 			<item value="Exception"/>
