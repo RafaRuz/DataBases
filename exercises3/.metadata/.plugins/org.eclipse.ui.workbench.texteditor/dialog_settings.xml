@@ -1,30 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item value="false" key="isRegEx"/>
-		<item value="" key="selection"/>
+		<item value="true" key="isRegEx"/>
+		<item value="getHouseById" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="getMietvertragByVerwalter"/>
-			<item value="addhaus"/>
-			<item value="addtes"/>
-			<item value="update"/>
-			<item value="makler"/>
-			<item value="addTest"/>
+			<item value="gethousebyid"/>
+			<item value="getallhouses"/>
+			<item value="newtena"/>
+			<item value="new"/>
 			<item value="add"/>
-			<item value="addmak"/>
+			<item value="newte"/>
+			<item value="tenancycont"/>
+			<item value="addhouse"/>
+			<item value="addpurchase"/>
+			<item value="getestates"/>
+			<item value="createquery"/>
+			<item value="setroom"/>
+			<item value="setRoom"/>
+			<item value="addapart"/>
+			<item value="apartm"/>
 		</list>
 		<list key="replacehistory">
+			<item value=".\ \=\ session.merge(.)session\.delete\(rekt\)"/>
+			<item value="session\.delete\(rekt\)"/>
+			<item value="Exception"/>
+			<item value="e.printStackTrace();"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="312" key="DIALOG_WIDTH"/>
 		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 		<item value="436" key="DIALOG_HEIGHT"/>
-		<item value="771" key="DIALOG_X_ORIGIN"/>
-		<item value="256" key="DIALOG_Y_ORIGIN"/>
+		<item value="1137" key="DIALOG_X_ORIGIN"/>
+		<item value="178" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

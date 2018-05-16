@@ -151,6 +151,9 @@ public class EstateEditor {
 				h.setPrice(newPrice);
 			
 			h.setGarden(newGarden);
+			
+			if( !newCity.equals("") || !newStreet.equals("") || !newHouseNummer.equals("") || newPostalcode != 0 || newSquareArea != 0 || newFloors != 0 || newPrice != 0 )
+				service.updateHouse(h);
 		}
 	}
 	
@@ -186,6 +189,7 @@ public class EstateEditor {
 		w.setSquareArea(FormUtil.readInt("Square Area"));
 		w.setFloor(FormUtil.readInt("Floor"));
 		w.setRent(FormUtil.readInt("Rent"));
+		w.setRooms(FormUtil.readInt("Rooms"));
 		w.setKitchen(FormUtil.readBoolean("Kitchen"));
 		w.setBalcony(FormUtil.readBoolean("Balcony"));
 		w.setManager(this.manager);
@@ -247,6 +251,9 @@ public class EstateEditor {
 			
 			w.setKitchen(newEbk);
 			w.setBalcony(newBalcony);
+			
+			if( !newcity.equals("") || !newStreet.equals("") || !newHouseNummer.equals("") || newPostalcode != 0 || newSquareArea != 0 || newFloor != 0 || newRent != 0 )
+				service.updateApartment(w);
 		}
 	}
 	

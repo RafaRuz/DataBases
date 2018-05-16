@@ -99,6 +99,11 @@ public class EstateAgentEditor {
 				m.setLogin(new_login);
 			if(!new_password.equals(""))
 				m.setPassword(new_password);
+			
+			if( !new_name.equals("") || !new_address.equals("") || !new_login.equals("") || !new_password.equals("") )
+				service.updateEstateAgent(m);
+			
+			System.out.println("Estate agent with ID "+m.getId()+" was updated.");
 		}
 	}
 	

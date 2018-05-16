@@ -139,7 +139,7 @@ public class ContractEditor {
 				
 				service.addTenancyContract(m);
 				
-				System.out.println("Tenancy contract with the ID \"+k.getId()+\" was created");
+				System.out.println("Tenancy contract with the ID "+m.getId()+" was created");
 			}
 		}
 	}
